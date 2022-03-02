@@ -6,4 +6,12 @@
 *::before,
 *::after {
   direction: rtl;
+  font-family: "Vazir FD", sans-serif;
+}
+
+a,
+a:hover,
+a:visited,
+a:focus {
+  color: inherit;
 }
