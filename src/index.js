@@ -2,11 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import "antd/dist/antd.css";
 import './index.css';
-import YourAppName from "./Containers/YourAppName";
+import StudentPanel from "./Containers/StudentPanel";
 
 ReactDOM.render(
   <React.StrictMode>
-    <YourAppName />
+    <StudentPanel />
   </React.StrictMode>,
   document.getElementById("root")
 );
