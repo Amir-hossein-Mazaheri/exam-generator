@@ -2,7 +2,7 @@ import { Provider } from "react-redux";
 import store from "../Store/configStore";
 import App from "./App";
 
-function YourAppName() {
+function StudentPanel() {
   return (
     <Provider store={store}>
       <App />
@@ -10,4 +10,4 @@ function YourAppName() {
   );
 }
 
-export default YourAppName;
+export default StudentPanel;

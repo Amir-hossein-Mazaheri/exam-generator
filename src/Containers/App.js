@@ -2,7 +2,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import "./App.css";
 import { Spin } from "antd";
+
+//layout assets
 import Wrapper from "../Layouts/Wrapper";
+import MainLayout from "../Layouts/MainLayout";
 
 // pages
 import HomePage from "../Pages";
@@ -22,10 +25,12 @@ function App() {
     <Suspense fallback={loadingSpinner}>
       <BrowserRouter>
         <Routes>
-          <Route index element={<HomePage />} />
-          <Route path="/page1" element={<Page1 />} />
-          <Route path="/page2" element={<Page2 />} />
-          <Route path="*" component={<NotFoundPage />} />
+          <Route element={<MainLayout asRoute={true} />}>
+            <Route index element={<HomePage />} />
+            <Route path="/page1" element={<Page1 />} />
+            <Route path="/page2" element={<Page2 />} />
+            <Route path="*" component={<NotFoundPage />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </Suspense>

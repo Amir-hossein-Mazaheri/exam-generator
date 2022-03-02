@@ -1,7 +1,5 @@
 function SomeRandomComponent() {
-  return (
-    <div>SomeRandomComponent</div>
-  )
+  return <div>SomeRandomComponent</div>;
 }
 
-export default SomeRandomComponent
+export default SomeRandomComponent;
