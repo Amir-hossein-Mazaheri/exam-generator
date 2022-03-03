@@ -12,7 +12,7 @@ import HomePage from "../Pages";
 import NotFoundPage from "../Pages/Error/404";
 
 const RawExam = lazy(() => import("../Pages/RawExam"));
-const Page2 = lazy(() => import("../Pages/Page2"));
+const HoldingExam = lazy(() => import("../Pages/HoldingExam"));
 
 const loadingSpinner = (
   <Wrapper>
@@ -28,7 +28,7 @@ function App() {
           <Route element={<MainLayout asRoute={true} />}>
             <Route index element={<HomePage />} />
             <Route path="/raw-exam" element={<RawExam />} />
-            <Route path="/page2" element={<Page2 />} />
+            <Route path="/holding-exam" element={<HoldingExam />} />
             <Route path="*" component={<NotFoundPage />} />
           </Route>
         </Routes>

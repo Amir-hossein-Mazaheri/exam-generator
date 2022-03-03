@@ -14,7 +14,7 @@ function Sidebar() {
           <span>آزمون های خام</span>
         </Button>
       </Link>
-      <Link className="block" to="/">
+      <Link className="block" to="/holding-exam">
         <Button className="bg-sky-500 text-white w-full py-3">
           <span>برگذاری آزمون</span>
         </Button>
