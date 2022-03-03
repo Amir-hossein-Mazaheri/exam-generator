@@ -1,6 +1,7 @@
 import { Tabs } from "antd";
 import React from "react";
 import BeingHoldExams from "../Components/BeingHoldExams";
+import HoldedExams from "../Components/HoldedExams";
 
 const { TabPane } = Tabs;
 
@@ -19,7 +20,7 @@ function Page2() {
             <BeingHoldExams />
           </TabPane>
           <TabPane tab="آزمون های برگزار شده" key="2">
-            Content of tab 2
+            <HoldedExams />
           </TabPane>
         </Tabs>
       </div>

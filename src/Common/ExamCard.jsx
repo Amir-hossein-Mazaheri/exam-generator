@@ -44,23 +44,25 @@ function ExamCard({ title, count, categories, time }) {
         </div>
       </div>
       {time && (
-        <div className="flex flex-col justify-between">
-          <p>
-            <span>تاریخ شروع آزمون : </span>
-            <span>{time.start}</span>
-          </p>
-          <p>
-            <span>تاریخ پایان آزمون : </span>
-            <span>{time.end}</span>
-          </p>
-          <p>
-            <span>مدت زمان مجاز : </span>
-            <span>{time.duration}</span>
-          </p>
-          <p>
-            <span>دانش آموزان شرکت کرده : </span>
-            <span>{time.attended}</span>
-          </p>
+        <div className="py-2">
+          <div className="flex flex-col justify-between text-sm px-5 py-3 rounded-md h-full w-full bg-gray-100">
+            <p>
+              <span>تاریخ شروع آزمون : </span>
+              <span>{time.start}</span>
+            </p>
+            <p>
+              <span>تاریخ پایان آزمون : </span>
+              <span>{time.end}</span>
+            </p>
+            <p>
+              <span>مدت زمان مجاز : </span>
+              <span>{time.duration}</span>
+            </p>
+            <p>
+              <span>دانش آموزان شرکت کرده : </span>
+              <span>{time.attended}</span>
+            </p>
+          </div>
         </div>
       )}
     </div>
