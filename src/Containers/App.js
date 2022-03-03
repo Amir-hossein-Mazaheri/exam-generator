@@ -11,7 +11,7 @@ import MainLayout from "../Layouts/MainLayout";
 import HomePage from "../Pages";
 import NotFoundPage from "../Pages/Error/404";
 
-const Page1 = lazy(() => import("../Pages/Page1"));
+const RawExam = lazy(() => import("../Pages/RawExam"));
 const Page2 = lazy(() => import("../Pages/Page2"));
 
 const loadingSpinner = (
@@ -27,7 +27,7 @@ function App() {
         <Routes>
           <Route element={<MainLayout asRoute={true} />}>
             <Route index element={<HomePage />} />
-            <Route path="/page1" element={<Page1 />} />
+            <Route path="/raw-exam" element={<RawExam />} />
             <Route path="/page2" element={<Page2 />} />
             <Route path="*" component={<NotFoundPage />} />
           </Route>

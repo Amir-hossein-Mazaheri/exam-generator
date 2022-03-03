@@ -1,5 +1,5 @@
 {
-  "name": "student-panel",
+  "name": "exam-generator",
   "version": "1.0.0",
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.0",
