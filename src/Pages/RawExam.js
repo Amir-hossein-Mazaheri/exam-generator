@@ -1,8 +1,10 @@
 import ExamCard from "../Common/ExamCard";
+import Filter from "../Components/FilterHolder";
 
 function RawExam() {
   return (
     <>
+      <Filter />
       <div className="space-y-8">
         {[1, 2, 3, 4, 5, 6].map((n) => (
           <ExamCard
