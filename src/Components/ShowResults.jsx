@@ -8,7 +8,7 @@ function ShowResults({ studentInfo }) {
       dataIndex: "fullname",
       key: "fullname",
       render: (text, record) => (
-        <Link to={`/student-results/${record.id}`}>
+        <Link to={`/student-result/${record.id}`}>
           <p>{text}</p>
         </Link>
       ),
