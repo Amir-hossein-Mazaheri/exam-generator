@@ -3,6 +3,7 @@ import { HIDE_MODAL } from "../Store/ui";
 import { useSelector, useDispatch } from "react-redux";
 import { useCallback } from "react";
 import Button from "../Common/Button";
+import Categories from "../Common/Categories";
 
 function AddQuestionModal() {
   const dispatch = useDispatch();
@@ -24,6 +25,9 @@ function AddQuestionModal() {
       footer={null}
     >
       <form onSubmit={handleManuallyAddQuestion}>
+        <div className="px-5 py-3 mb-7 rounded-md shadow">
+          <Categories />
+        </div>
         <div className="mr-auto w-fit">
           <Button
             onClick={() => dispatch(HIDE_MODAL())}
