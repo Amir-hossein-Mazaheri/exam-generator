@@ -11,6 +11,7 @@ import MainLayout from "../Layouts/MainLayout";
 import HomePage from "../Pages";
 import NotFoundPage from "../Pages/Error/404";
 
+// lazy loading pages
 const RawExam = lazy(() => import("../Pages/RawExam"));
 const HoldingExam = lazy(() => import("../Pages/HoldingExam"));
 const ExamGenerator = lazy(() => import("../Pages/ExamGenerator"));
@@ -40,5 +41,5 @@ function App() {
     </Suspense>
   );
 }
-// compeleted
+
 export default App;
