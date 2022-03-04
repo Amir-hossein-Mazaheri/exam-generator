@@ -1,6 +1,7 @@
 import { Descriptions } from "antd";
 import { useParams } from "react-router";
 import ExamCard from "../Common/ExamCard";
+import AnswerList from "../Components/AnswerList";
 
 const { Item } = Descriptions;
 
@@ -74,6 +75,16 @@ function StudentResult() {
           </Descriptions>
         </div>
       </div>
+
+      <AnswerList
+        answers={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => ({
+          key: n,
+          number: n,
+          status: "درست",
+          selected: null,
+          correct: 4,
+        }))}
+      />
     </div>
   );
 }
