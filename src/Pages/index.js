@@ -4,7 +4,7 @@ function HomePage() {
   return (
     <div className="flex gap-8">
       <Card to="/" title="لیست آزمون های ساخته شده" className="grow" />
-      <Card to="/" title="ساخت آزمون جدید" className="grow">
+      <Card to="/exam-generator" title="ساخت آزمون جدید" className="grow">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-full w-full scale-75 opacity-20"

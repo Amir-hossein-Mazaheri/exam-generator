@@ -13,6 +13,7 @@ import NotFoundPage from "../Pages/Error/404";
 
 const RawExam = lazy(() => import("../Pages/RawExam"));
 const HoldingExam = lazy(() => import("../Pages/HoldingExam"));
+const ExamGenerator = lazy(() => import("../Pages/ExamGenerator"));
 
 const loadingSpinner = (
   <Wrapper>
@@ -29,7 +30,8 @@ function App() {
             <Route index element={<HomePage />} />
             <Route path="/raw-exam" element={<RawExam />} />
             <Route path="/holding-exam" element={<HoldingExam />} />
-            <Route path="*" component={<NotFoundPage />} />
+            <Route path="/exam-generator" element={<ExamGenerator />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
