@@ -16,6 +16,7 @@ const RawExam = lazy(() => import("../Pages/RawExam"));
 const HoldingExam = lazy(() => import("../Pages/HoldingExam"));
 const ExamGenerator = lazy(() => import("../Pages/ExamGenerator"));
 const ExamResults = lazy(() => import("../Pages/ExamResults"));
+const StudentResult = lazy(() => import("../Pages/StudentResult"));
 
 const loadingSpinner = (
   <Wrapper>
@@ -34,6 +35,7 @@ function App() {
             <Route path="/holding-exam" element={<HoldingExam />} />
             <Route path="/exam-generator" element={<ExamGenerator />} />
             <Route path="/exam-results/:id" element={<ExamResults />} />
+            <Route path="/student-result/:id" element={<StudentResult />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>
