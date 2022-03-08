@@ -11,6 +11,7 @@ function QuestionCard({
   choices,
   hardness,
   deleteFunction,
+  addFunction,
 }) {
   const isCorrect = useMemo(() => {
     return choices.find((choice) => choice.is_correct);
@@ -69,6 +70,30 @@ function QuestionCard({
               </svg>
             </span>
             <span>حذف سوال</span>
+          </Button>
+        </div>
+      )}
+
+      {addFunction && (
+        <div onClick={addFunction}>
+          <Button className="bg-green-500 text-white flex gap-1 mr-auto items-center">
+            <span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                />
+              </svg>
+            </span>
+            <span>افزودن</span>
           </Button>
         </div>
       )}

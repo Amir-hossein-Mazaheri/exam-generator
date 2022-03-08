@@ -21,6 +21,9 @@ const ExamGenerator = createSlice({
     SET_QUESTIONS: (store, action) => {
       store.generatedQuestions = action.payload.questions;
     },
+    APPEND_QUESTION: (store, action) => {
+      store.generatedQuestions.push(action.payload.question);
+    },
     RESET_GENERATOR: (store) => {
       store.generatedQuestions = [];
       store.generatorProperties = initialGeneratorProperties;
@@ -30,5 +33,9 @@ const ExamGenerator = createSlice({
 
 export default ExamGenerator.reducer;
 
-export const { SET_PROPERTIES, SET_QUESTIONS, RESET_GENERATOR } =
-  ExamGenerator.actions;
+export const {
+  SET_PROPERTIES,
+  SET_QUESTIONS,
+  RESET_GENERATOR,
+  APPEND_QUESTION,
+} = ExamGenerator.actions;

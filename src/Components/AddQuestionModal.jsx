@@ -10,6 +10,7 @@ import convertCategory from "../Helpers/categoryConvertor";
 import axios from "axios";
 import convertChecker from "../Helpers/categoryChcker";
 import QuestionCard from "../Common/QuestionCard";
+import { APPEND_QUESTION } from "../Store/entities/ExamGenerator";
 
 function AddQuestionModal() {
   const dispatch = useDispatch();
@@ -25,6 +26,11 @@ function AddQuestionModal() {
   const setCategories = useCallback((values) => {
     setCat(convertChecker(values));
   }, []);
+
+  const addQuestionToCurrent = useCallback((question) => {
+    dispatch(APPEND_QUESTION({ question: question }));
+    dispatch(HIDE_MODAL())
+  }, [dispatch]);
 
   const categories = useMemo(() => {
     if (!categoriesData) return;
@@ -94,6 +100,7 @@ function AddQuestionModal() {
                 ]}
                 hardness={question.level}
                 choices={question.choices}
+                addFunction={() => addQuestionToCurrent(question)}
               />
             ))}
           </div>
