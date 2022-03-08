@@ -4,15 +4,32 @@ import ExamGeneratorProperty from "../Components/ExamGeneratorProperty";
 import GeneratedExam from "../Components/GeneratedExam";
 import { SHOW_MODAL } from "../Store/ui";
 import AddQuestionModal from "../Components/AddQuestionModal";
+import { useCallback } from "react";
+import axios from "axios";
+import { RESET_GENERATOR } from "../Store/entities/ExamGenerator";
+import { message } from "antd";
 
 function ExamGenerator() {
   const dispatch = useDispatch();
-  const { generatedQuestions } = useSelector(
+  const { generatedQuestions, generatorProperties: { name } } = useSelector(
     (store) => store.entities.ExamGenerator
   );
 
-  console.log(generatedQuestions);
-  console.log(generatedQuestions.length > 0);
+  const saveExam = useCallback(() => {
+    console.log(name);
+    axios
+      .post("http://192.168.179.213:8080/raw_exams/", {
+        questions: generatedQuestions.map((question) => question.id),
+        name: name,
+      })
+      .then((res) => {
+        message.success(
+          `آزمون ${name} با موفقیت ساخته شد.`
+        );
+        dispatch(RESET_GENERATOR());
+      })
+      .catch((err) => console.log(err.response));
+  }, [dispatch, generatedQuestions, name]);
 
   return (
     <div>
@@ -28,7 +45,9 @@ function ExamGenerator() {
               >
                 اضافه کردن دستی سوال
               </Button>
-              <Button className="bg-green-500 text-white">ذخیره آزمون</Button>
+              <Button onClick={saveExam} className="bg-green-500 text-white">
+                ذخیره آزمون
+              </Button>
               <AddQuestionModal />
             </div>
           </div>

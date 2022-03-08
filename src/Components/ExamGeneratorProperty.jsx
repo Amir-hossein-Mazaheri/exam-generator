@@ -8,7 +8,7 @@ import Categories from "../Common/Categories";
 import convertChecker from "../Helpers/categoryChcker";
 import convertCategory from "../Helpers/categoryConvertor";
 import fetcher from "../Helpers/fetcher";
-import { SET_QUESTIONS } from "../Store/entities/ExamGenerator";
+import { SET_PROPERTIES, SET_QUESTIONS } from "../Store/entities/ExamGenerator";
 
 function ExamGeneratorProperty() {
   const [name, setName] = useState("");
@@ -40,7 +40,11 @@ function ExamGeneratorProperty() {
         })
         .then((res) => {
           dispatch(SET_QUESTIONS({ questions: res.data }));
-          console.log(res.data);
+          dispatch(SET_PROPERTIES({ property: "name", value: name }));
+          dispatch(SET_PROPERTIES({ property: "hard", value: hard }));
+          dispatch(SET_PROPERTIES({ property: "medium", value: medium }));
+          dispatch(SET_PROPERTIES({ property: "easy", value: easy }));
+          dispatch(SET_PROPERTIES({ property: "subjects", value: cat }));
         });
     },
     [easy, hard, medium, name, cat, dispatch]
