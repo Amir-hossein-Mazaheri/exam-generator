@@ -1,25 +1,38 @@
 import { useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import QuestionCard from "../Common/QuestionCard";
+import { SET_QUESTIONS } from "../Store/entities/ExamGenerator";
 
 function GeneratedExam() {
-  const handleQuestionDeletion = useCallback(() => {
-    console.log("deleted");
-  }, []);
+  const dispatch = useDispatch();
+  const { generatedQuestions } = useSelector(
+    (store) => store.entities.ExamGenerator
+  );
+
+  const handleQuestionDeletion = useCallback(
+    (id) => {
+      const questionsCopy = [...generatedQuestions];
+      const deleted = questionsCopy.filter((question) => question.id !== id);
+      dispatch(SET_QUESTIONS({ questions: deleted }));
+    },
+    [dispatch, generatedQuestions]
+  );
 
   return (
     <div className="space-y-8 mt-12">
-      {[1, 2, 3, 4, 5, 6].map((n) => (
+      {generatedQuestions.map((question, index) => (
         <QuestionCard
-          questionTag={`سوال ${n}`}
-          title="سوال سوال سوال سوال سوال سوال سوال سوال سوال"
-          categories={["متوسط", "فصل 1", "دهم", "تجربی"]}
-          choices={[
-            "گزینه گزینه گزینه گزینه گزینه گزینه گزینه گزینه",
-            "گزینه گزینه گزینه گزینه گزینه گزینه گزینه گزینه",
-            "گزینه گزینه گزینه گزینه گزینه گزینه گزینه گزینه",
-            "گزینه گزینه گزینه گزینه گزینه گزینه گزینه گزینه",
+          questionTag={`سوال ${index + 1}`}
+          title={question.description}
+          categories={[
+            question.major,
+            question.grade,
+            question.course,
+            question.subject,
           ]}
-          deleteFunction={handleQuestionDeletion}
+          hardness={question.level}
+          choices={question.choices}
+          deleteFunction={() => handleQuestionDeletion(question.id)}
         />
       ))}
     </div>

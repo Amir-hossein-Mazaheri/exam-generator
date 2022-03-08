@@ -1,3 +1,6 @@
+import { Radio, Space } from "antd";
+import { useMemo } from "react";
+import convertHardness from "../Helpers/convertHardness";
 import Button from "./Button";
 import Tag from "./Tag";
 
@@ -6,8 +9,15 @@ function QuestionCard({
   title,
   categories,
   choices,
+  hardness,
   deleteFunction,
 }) {
+  const isCorrect = useMemo(() => {
+    return choices.find((choice) => choice.is_correct);
+  }, [choices]);
+
+  console.log(hardness);
+
   return (
     <div className="px-7 py-4 rounded-lg shadow-lg shadow-gray-200">
       <div className="flex items-center justify-between">
@@ -16,21 +26,28 @@ function QuestionCard({
         )}
         <div className="flex gap-3">
           {categories.map((category) => (
-            <Tag className="bg-gray-300 rounded-md">{category}</Tag>
+            <Tag key={category} className="bg-gray-300 rounded-md">
+              {category}
+            </Tag>
           ))}
+          <Tag className="bg-gray-300 rounded-md">
+            {convertHardness(hardness)}
+          </Tag>
         </div>
       </div>
 
       <div className="mt-5">
         <h3 className="text-md font-medium">{title}</h3>
         <div className="mt-5 space-y-4">
-          <ul>
-            {choices.map((choice) => (
-              <li>
-                <p>{choice}</p>
-              </li>
-            ))}
-          </ul>
+          <Radio.Group value={isCorrect.text}>
+            <Space direction="vertical">
+              {choices.map((choice, index) => (
+                <Radio value={choice.text}>
+                  <div dangerouslySetInnerHTML={{ __html: choice.text }}></div>
+                </Radio>
+              ))}
+            </Space>
+          </Radio.Group>
         </div>
       </div>
 

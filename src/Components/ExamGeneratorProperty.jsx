@@ -1,12 +1,14 @@
 import { Input, Spin } from "antd";
 import axios from "axios";
 import { useCallback, useMemo, useState } from "react";
+import { useDispatch } from "react-redux";
 import useSWR from "swr";
 import Button from "../Common/Button";
 import Categories from "../Common/Categories";
 import convertChecker from "../Helpers/categoryChcker";
 import convertCategory from "../Helpers/categoryConvertor";
 import fetcher from "../Helpers/fetcher";
+import { SET_QUESTIONS } from "../Store/entities/ExamGenerator";
 
 function ExamGeneratorProperty() {
   const [name, setName] = useState("");
@@ -14,12 +16,12 @@ function ExamGeneratorProperty() {
   const [medium, setMedium] = useState(0);
   const [easy, setEasy] = useState(0);
   const [cat, setCat] = useState([]);
-  const [generatedQuestions, setGeneratedQuestions] = useState([]);
-  const [isGenerated, setIsGenerated] = useState(false);
   const { data: categoriesData } = useSWR(
     "http://192.168.179.213:8080/majors/",
     fetcher
   );
+
+  const dispatch = useDispatch();
 
   const setCategories = useCallback((values) => {
     setCat(convertChecker(values));
@@ -29,7 +31,6 @@ function ExamGeneratorProperty() {
     (event) => {
       event.preventDefault();
       console.log(name, hard, medium, easy);
-      setIsGenerated(false);
       axios
         .post("http://192.168.179.213:8080/exam_generator/", {
           hard,
@@ -38,12 +39,11 @@ function ExamGeneratorProperty() {
           subjects: cat,
         })
         .then((res) => {
-          setGeneratedQuestions(res.data);
-          setIsGenerated(true);
+          dispatch(SET_QUESTIONS({ questions: res.data }));
           console.log(res.data);
         });
     },
-    [easy, hard, medium, name, cat]
+    [easy, hard, medium, name, cat, dispatch]
   );
 
   const categories = useMemo(() => {
