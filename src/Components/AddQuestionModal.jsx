@@ -1,4 +1,4 @@
-import { Checkbox, Modal } from "antd";
+import { Modal, Radio } from "antd";
 import { HIDE_MODAL } from "../Store/ui";
 import { useSelector, useDispatch } from "react-redux";
 import { useCallback, useMemo, useState } from "react";
@@ -8,57 +8,96 @@ import useSWR from "swr";
 import fetcher from "../Helpers/fetcher";
 import convertCategory from "../Helpers/categoryConvertor";
 import axios from "axios";
+import convertChecker from "../Helpers/categoryChcker";
+import QuestionCard from "../Common/QuestionCard";
 
 function AddQuestionModal() {
   const dispatch = useDispatch();
-  const [fetchedQuestions, setFetchedQuestions] = useState([]);
-  const [hardness, setHardness] = useState([]);
+  const [fetchedQuestions, setFetchedQuestions] = useState();
+  const [cat, setCat] = useState([]);
+  const [hardness, setHardness] = useState(0);
   const { data: categoriesData } = useSWR(
     "http://192.168.179.213:8080/majors/",
     fetcher
   );
-  const { modalVisibility, isModalLoading } = useSelector((store) => store.ui);
+  const { modalVisibility } = useSelector((store) => store.ui);
+
+  const setCategories = useCallback((values) => {
+    setCat(convertChecker(values));
+  }, []);
 
   const categories = useMemo(() => {
     if (!categoriesData) return;
     return convertCategory(categoriesData);
   }, [categoriesData]);
 
-  const hardnessOptions = useMemo(() => {
-    return [
-      { label: "سخت", value: 1 },
-      { label: "متوسط", value: "Apple" },
-      { label: "آسان", value: "Apple" },
-    ];
-  }, []);
-
-  const handleManuallyAddQuestion = useCallback((event) => {
-    event.preventDefault();
-    console.log("submitted");
-    axios
-      .get("http://192.168.179.213:8080/questions/", {})
-      .then((res) => setFetchedQuestions(res.data));
-  }, []);
+  const handleManuallyAddQuestion = useCallback(
+    (event) => {
+      event.preventDefault();
+      console.log("submitted");
+      axios
+        .get("http://192.168.179.213:8080/questions/", {
+          params: {
+            subjects: cat,
+            level: hardness,
+            page_size: 100,
+          },
+        })
+        .then((res) => {
+          setFetchedQuestions(res.data.results);
+          console.log(res.data);
+        });
+    },
+    [cat, hardness]
+  );
 
   return (
     <Modal
       title="اضافه کردن سوال به صورت دستی"
       visible={modalVisibility}
+      style={{ top: "20px" }}
       //   onOk={handleOk}
       //   confirmLoading={isModalLoading}
       onCancel={() => dispatch(HIDE_MODAL())}
       keyboard={true}
       footer={null}
+      width="80%"
     >
       <form onSubmit={handleManuallyAddQuestion}>
         <div className="px-5 py-3 mb-7 rounded-md shadow">
-          <Checkbox.Group
-            options={plainOptions}
-            defaultValue={["Apple"]}
-            onChange={onChange}
+          <Radio.Group
+            onChange={(event) => setHardness(event.target.value)}
+            value={hardness}
+            className="mx-auto mb-5 mt-3"
+            buttonStyle="solid"
+          >
+            <Radio.Button value={1}>سخت</Radio.Button>
+            <Radio.Button value={2}>متسوط</Radio.Button>
+            <Radio.Button value={3}>آسان</Radio.Button>
+          </Radio.Group>
+          <Categories
+            onCheck={(values) => setCategories(values)}
+            data={categories}
           />
-          <Categories data={categories} />
         </div>
+        {fetchedQuestions && (
+          <div className="max-h-[50vh] overflow-auto">
+            {fetchedQuestions.map((question, index) => (
+              <QuestionCard
+                questionTag={`سوال ${index + 1}`}
+                title={question.description}
+                categories={[
+                  question.major,
+                  question.grade,
+                  question.course,
+                  question.subject,
+                ]}
+                hardness={question.level}
+                choices={question.choices}
+              />
+            ))}
+          </div>
+        )}
         <div className="mr-auto w-fit">
           <Button
             onClick={() => dispatch(HIDE_MODAL())}
