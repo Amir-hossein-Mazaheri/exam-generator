@@ -44,10 +44,10 @@ const treeData = [
   },
 ];
 
-function Categories() {
+function Categories({ data, ...others }) {
   return (
     <div>
-      <Tree checkable treeData={treeData} />
+      <Tree checkable treeData={data || treeData} {...others} />
     </div>
   );
 }
