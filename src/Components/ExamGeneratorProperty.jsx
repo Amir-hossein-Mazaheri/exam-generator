@@ -1,10 +1,11 @@
-import { Input, Spin } from "antd";
+import { Input } from "antd";
 import axios from "axios";
 import { useCallback, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import useSWR from "swr";
 import Button from "../Common/Button";
 import Categories from "../Common/Categories";
+import Spinner from "../Common/Spinner";
 import convertChecker from "../Helpers/categoryChcker";
 import convertCategory from "../Helpers/categoryConvertor";
 import fetcher from "../Helpers/fetcher";
@@ -17,7 +18,7 @@ function ExamGeneratorProperty() {
   const [easy, setEasy] = useState(0);
   const [cat, setCat] = useState([]);
   const { data: categoriesData } = useSWR(
-    "http://192.168.179.213:8080/majors/",
+    "/majors/",
     fetcher
   );
 
@@ -32,7 +33,7 @@ function ExamGeneratorProperty() {
       event.preventDefault();
       console.log(name, hard, medium, easy);
       axios
-        .post("http://192.168.179.213:8080/exam_generator/", {
+        .post("/exam_generator/", {
           hard,
           medium,
           easy,
@@ -56,7 +57,7 @@ function ExamGeneratorProperty() {
   }, [categoriesData]);
 
   if (!categoriesData) {
-    return <Spin />;
+    return <Spinner />;
   }
 
   // console.log(categories);

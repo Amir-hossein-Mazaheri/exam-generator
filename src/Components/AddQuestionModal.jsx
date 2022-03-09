@@ -18,7 +18,7 @@ function AddQuestionModal() {
   const [cat, setCat] = useState([]);
   const [hardness, setHardness] = useState(0);
   const { data: categoriesData } = useSWR(
-    "http://192.168.179.213:8080/majors/",
+    "/majors/",
     fetcher
   );
   const { modalVisibility } = useSelector((store) => store.ui);
@@ -42,7 +42,7 @@ function AddQuestionModal() {
       event.preventDefault();
       console.log("submitted");
       axios
-        .get("http://192.168.179.213:8080/questions/", {
+        .get("/questions/", {
           params: {
             subjects: cat,
             level: hardness,

@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import "./App.css";
-import { Spin } from "antd";
 
 //layout assets
 import Wrapper from "../Layouts/Wrapper";
@@ -10,6 +9,7 @@ import MainLayout from "../Layouts/MainLayout";
 // pages
 import HomePage from "../Pages";
 import NotFoundPage from "../Pages/Error/404";
+import Spinner from "../Common/Spinner";
 
 // lazy loading pages
 const RawExam = lazy(() => import("../Pages/RawExam"));
@@ -21,7 +21,7 @@ const ExamSettings = lazy(() => import("../Pages/ExamSettings"));
 
 const loadingSpinner = (
   <Wrapper>
-    <Spin />
+    <Spinner />
   </Wrapper>
 );
 

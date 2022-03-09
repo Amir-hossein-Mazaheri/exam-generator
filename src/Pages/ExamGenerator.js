@@ -18,7 +18,7 @@ function ExamGenerator() {
   const saveExam = useCallback(() => {
     console.log(name);
     axios
-      .post("http://192.168.179.213:8080/raw_exams/", {
+      .post("/raw_exams/", {
         questions: generatedQuestions.map((question) => question.id),
         name: name,
       })

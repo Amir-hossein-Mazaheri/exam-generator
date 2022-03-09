@@ -1,5 +1,7 @@
-import { Spin, Tabs } from "antd";
-import React from "react";
+import { Tabs } from "antd";
+import Spinner from "../Common/Spinner";
+import axios from "axios";
+import { useEffect } from "react";
 import useSWR from "swr";
 import BeingHoldExams from "../Components/BeingHoldExams";
 import HoldedExams from "../Components/HoldedExams";
@@ -9,10 +11,14 @@ import isHolded from "../Helpers/isHolded";
 const { TabPane } = Tabs;
 
 function HoldingExam() {
-  const { data: exams } = useSWR("http://192.168.179.213:8080/exams/", fetcher);
+  const { data: exams } = useSWR("/exams/", fetcher);
+
+  useEffect(() => {
+    axios.get("/exams/").then((res) => console.log(res));
+  }, []);
 
   if (!exams) {
-    return <Spin />;
+    return <Spinner />;
   }
 
   return (
