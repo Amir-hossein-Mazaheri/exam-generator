@@ -1,9 +1,9 @@
-import { Input } from "antd";
+import { Input, message, Spin } from "antd";
 import axios from "axios";
 import { useCallback, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import useSWR from "swr";
-import Button from "../Common/Button";
+import { Button } from "antd";
 import Categories from "../Common/Categories";
 import Spinner from "../Common/Spinner";
 import convertChecker from "../Helpers/categoryChcker";
@@ -17,10 +17,8 @@ function ExamGeneratorProperty() {
   const [medium, setMedium] = useState(0);
   const [easy, setEasy] = useState(0);
   const [cat, setCat] = useState([]);
-  const { data: categoriesData } = useSWR(
-    "/majors/",
-    fetcher
-  );
+  const [isQuestionLoading, setIsQuestionLoading] = useState(false);
+  const { data: categoriesData } = useSWR("/majors/", fetcher);
 
   const dispatch = useDispatch();
 
@@ -32,6 +30,7 @@ function ExamGeneratorProperty() {
     (event) => {
       event.preventDefault();
       console.log(name, hard, medium, easy);
+      setIsQuestionLoading(true);
       axios
         .post("/exam_generator/", {
           hard,
@@ -40,6 +39,11 @@ function ExamGeneratorProperty() {
           subjects: cat,
         })
         .then((res) => {
+          setIsQuestionLoading(false);
+          if (res.data.length === 0) {
+            message.error("سوالی با این مشخصات پیدا نشد.");
+            return;
+          }
           dispatch(SET_QUESTIONS({ questions: res.data }));
           dispatch(SET_PROPERTIES({ property: "name", value: name }));
           dispatch(SET_PROPERTIES({ property: "hard", value: hard }));
@@ -113,10 +117,11 @@ function ExamGeneratorProperty() {
         </div>
 
         <Button
-          type="submit"
-          className="bg-green-500 text-white mt-6 flex mr-auto"
+          htmlType="submit"
+          loading={isQuestionLoading}
+          className="bg-green-500 text-white mt-6 flex mr-auto rounded-full border-none hover:bg-green-600 hover:text-white"
         >
-          تولید سوالات
+          <span>تولید سوالات</span>
         </Button>
       </form>
     </div>
