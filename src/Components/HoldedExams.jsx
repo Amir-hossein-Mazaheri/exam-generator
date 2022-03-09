@@ -1,6 +1,6 @@
 import ExamCard from "../Common/ExamCard";
 
-function HoldedExams() {
+function HoldedExams({ exams }) {
   return (
     <div className="space-y-8">
       {[1, 2].map((n) => (
