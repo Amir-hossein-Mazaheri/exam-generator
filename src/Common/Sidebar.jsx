@@ -9,7 +9,7 @@ function Sidebar() {
           <span>خانه</span>
         </Button>
       </Link>
-      <Link className="block" to="/raw-exam">
+      <Link className="block" to="/raw-exams">
         <Button className="bg-sky-500 text-white w-full py-3">
           <span>آزمون های خام</span>
         </Button>
