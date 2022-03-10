@@ -35,6 +35,7 @@ function RawExams() {
               { title: "درس ها", values: ["فیزیک 2"] },
               { title: "مباحث", values: ["گرما", "الکتریسیه"] },
             ]}
+            settingLink={`/exam-settings/${question.id}`}
           />
         ))}
       </div>

@@ -1,7 +1,12 @@
+import { useParams } from "react-router";
 import ExamCard from "../Common/ExamCard";
 import ExamSetting from "../Components/ExamSetting";
 
 function ExamSettings() {
+  const { id } = useParams();
+
+  console.log(id);
+
   return (
     <div>
       <ExamCard
@@ -33,4 +38,4 @@ function ExamSettings() {
   );
 }
 
-export default ExamSettings
+export default ExamSettings;
