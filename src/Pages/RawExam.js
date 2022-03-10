@@ -1,17 +1,28 @@
+import useSWR from "swr";
 import ExamCard from "../Common/ExamCard";
 import Filter from "../Components/FilterHolder";
+import fetcher from "../Helpers/fetcher";
+import Spinner from "../Common/Spinner";
 
-function RawExam() {
+function RawExams() {
+  const { data: rawQuestions } = useSWR("/raw_exams/", fetcher);
+
+  if (!rawQuestions) {
+    return <Spinner />;
+  }
+
+  console.log(rawQuestions);
+
   return (
-    <>
+    <div>
       <Filter />
       <div className="space-y-8">
-        {[1, 2, 3, 4, 5, 6].map((n) => (
+        {rawQuestions.map((question) => (
           <ExamCard
-            key={n}
-            title="جمع بندی فیزیک 2"
+            key={question.id}
+            title={question.name}
             count={{
-              allCount: 20,
+              allCount: question.questions_count,
               eachCount: [
                 { title: "آسان", value: 5 },
                 { title: "متوسط", value: 5 },
@@ -27,8 +38,8 @@ function RawExam() {
           />
         ))}
       </div>
-    </>
+    </div>
   );
 }
 
-export default RawExam;
+export default RawExams;

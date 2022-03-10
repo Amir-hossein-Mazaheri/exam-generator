@@ -12,7 +12,7 @@ import NotFoundPage from "../Pages/Error/404";
 import Spinner from "../Common/Spinner";
 
 // lazy loading pages
-const RawExam = lazy(() => import("../Pages/RawExam"));
+const RawExams = lazy(() => import("../Pages/RawExam"));
 const HoldingExam = lazy(() => import("../Pages/HoldingExam"));
 const ExamGenerator = lazy(() => import("../Pages/ExamGenerator"));
 const ExamResults = lazy(() => import("../Pages/ExamResults"));
@@ -32,7 +32,7 @@ function App() {
         <Routes>
           <Route element={<MainLayout asRoute={true} />}>
             <Route index element={<HomePage />} />
-            <Route path="/raw-exam" element={<RawExam />} />
+            <Route path="/raw-exams" element={<RawExams />} />
             <Route path="/holding-exam" element={<HoldingExam />} />
             <Route path="/exam-generator" element={<ExamGenerator />} />
             <Route path="/exam-results/:id" element={<ExamResults />} />
