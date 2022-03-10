@@ -1,5 +1,5 @@
-import { Radio, Space } from "antd";
-import { useMemo } from "react";
+import { notification, Radio, Space } from "antd";
+import { useCallback, useMemo } from "react";
 import convertHardness from "../Helpers/convertHardness";
 import Button from "./Button";
 import Tag from "./Tag";
@@ -12,12 +12,18 @@ function QuestionCard({
   hardness,
   deleteFunction,
   addFunction,
+  exists = false,
 }) {
   const isCorrect = useMemo(() => {
     return choices.find((choice) => choice.is_correct);
   }, [choices]);
 
-  console.log(hardness);
+  const pushNotification = useCallback((type, title) => {
+    notification[type]({
+      message: title,
+      description: null,
+    });
+  }, []);
 
   return (
     <div className="px-7 py-4 rounded-lg shadow-lg shadow-gray-200">
@@ -38,11 +44,14 @@ function QuestionCard({
       </div>
 
       <div className="mt-5">
-        <h3 className="text-md font-medium">{title}</h3>
+        <h3
+          className="text-md font-medium"
+          dangerouslySetInnerHTML={{ __html: title }}
+        ></h3>
         <div className="mt-5 space-y-4">
-          <Radio.Group value={isCorrect.text}>
+          <Radio.Group value={isCorrect?.text}>
             <Space direction="vertical">
-              {choices.map((choice, index) => (
+              {choices.map((choice) => (
                 <Radio value={choice.text}>
                   <div dangerouslySetInnerHTML={{ __html: choice.text }}></div>
                 </Radio>
@@ -53,7 +62,12 @@ function QuestionCard({
       </div>
 
       {deleteFunction && (
-        <div onClick={deleteFunction}>
+        <div
+          onClick={() => {
+            deleteFunction();
+            pushNotification("info", "سوال حذف شد");
+          }}
+        >
           <Button className="bg-red-500 text-white flex gap-1 mr-auto items-center">
             <span>
               <svg
@@ -75,26 +89,58 @@ function QuestionCard({
       )}
 
       {addFunction && (
-        <div onClick={addFunction}>
-          <Button className="bg-green-500 text-white flex gap-1 mr-auto items-center">
-            <span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                />
-              </svg>
-            </span>
-            <span>افزودن</span>
-          </Button>
+        <div>
+          {exists ? (
+            <Button
+              onClick={() =>
+                pushNotification("error", "سوال مورد نظر در لیست موجود است")
+              }
+              className="bg-red-500 text-white flex gap-1 mr-auto items-center"
+            >
+              <span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </span>
+              <span>در لیست موجود است</span>
+            </Button>
+          ) : (
+            <div
+              onClick={() => {
+                addFunction();
+                pushNotification("success", "سوال با موفقیت افزوده شد.");
+              }}
+            >
+              <Button className="bg-green-500 text-white flex gap-1 mr-auto items-center">
+                <span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                    />
+                  </svg>
+                </span>
+                <span>افزودن</span>
+              </Button>
+            </div>
+          )}
         </div>
       )}
     </div>

@@ -17,20 +17,23 @@ function AddQuestionModal() {
   const [fetchedQuestions, setFetchedQuestions] = useState();
   const [cat, setCat] = useState([]);
   const [hardness, setHardness] = useState(0);
-  const { data: categoriesData } = useSWR(
-    "/majors/",
-    fetcher
-  );
+  const { data: categoriesData } = useSWR("/majors/", fetcher);
   const { modalVisibility } = useSelector((store) => store.ui);
+  const { generatedQuestions } = useSelector(
+    (store) => store.entities.ExamGenerator
+  );
 
   const setCategories = useCallback((values) => {
     setCat(convertChecker(values));
   }, []);
 
-  const addQuestionToCurrent = useCallback((question) => {
-    dispatch(APPEND_QUESTION({ question: question }));
-    dispatch(HIDE_MODAL())
-  }, [dispatch]);
+  const addQuestionToCurrent = useCallback(
+    (question) => {
+      dispatch(APPEND_QUESTION({ question: question }));
+      dispatch(HIDE_MODAL());
+    },
+    [dispatch]
+  );
 
   const categories = useMemo(() => {
     if (!categoriesData) return;
@@ -101,6 +104,11 @@ function AddQuestionModal() {
                 hardness={question.level}
                 choices={question.choices}
                 addFunction={() => addQuestionToCurrent(question)}
+                exists={
+                  generatedQuestions.findIndex((q) => q.id === question.id) > -1
+                    ? true
+                    : false
+                }
               />
             ))}
           </div>

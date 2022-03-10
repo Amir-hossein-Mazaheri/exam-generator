@@ -44,6 +44,7 @@ function ExamGeneratorProperty() {
             message.error("سوالی با این مشخصات پیدا نشد.");
             return;
           }
+          console.log(res);
           dispatch(SET_QUESTIONS({ questions: res.data }));
           dispatch(SET_PROPERTIES({ property: "name", value: name }));
           dispatch(SET_PROPERTIES({ property: "hard", value: hard }));
