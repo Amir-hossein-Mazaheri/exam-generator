@@ -12,6 +12,7 @@ import axios from "axios";
 import convertChecker from "../Helpers/categoryChcker";
 import QuestionCard from "../Common/QuestionCard";
 import { APPEND_QUESTION } from "../Store/entities/ExamGenerator";
+import pushNotification from "../Helpers/pushNotification";
 
 function AddQuestionModal() {
   const dispatch = useDispatch();
@@ -58,6 +59,9 @@ function AddQuestionModal() {
         .then((res) => {
           setFetchedQuestions(res.data.results);
           setIsFetchingQuestion(false);
+          if (res.data.results.length === 0) {
+            pushNotification("warning", "سوالی با این مشخصات یافت نشد.")
+          }
           console.log(res.data);
         });
     },
