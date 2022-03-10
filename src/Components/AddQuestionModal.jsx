@@ -2,7 +2,8 @@ import { Modal, Radio } from "antd";
 import { HIDE_MODAL } from "../Store/ui";
 import { useSelector, useDispatch } from "react-redux";
 import { useCallback, useMemo, useState } from "react";
-import Button from "../Common/Button";
+import Btn from "../Common/Button";
+import { Button } from "antd";
 import Categories from "../Common/Categories";
 import useSWR from "swr";
 import fetcher from "../Helpers/fetcher";
@@ -17,6 +18,7 @@ function AddQuestionModal() {
   const [fetchedQuestions, setFetchedQuestions] = useState();
   const [cat, setCat] = useState([]);
   const [hardness, setHardness] = useState(0);
+  const [isFetchingQuestion, setIsFetchingQuestion] = useState(false);
   const { data: categoriesData } = useSWR("/majors/", fetcher);
   const { modalVisibility } = useSelector((store) => store.ui);
   const { generatedQuestions } = useSelector(
@@ -44,6 +46,7 @@ function AddQuestionModal() {
     (event) => {
       event.preventDefault();
       console.log("submitted");
+      setIsFetchingQuestion(true);
       axios
         .get("/questions/", {
           params: {
@@ -54,6 +57,7 @@ function AddQuestionModal() {
         })
         .then((res) => {
           setFetchedQuestions(res.data.results);
+          setIsFetchingQuestion(false);
           console.log(res.data);
         });
     },
@@ -114,14 +118,19 @@ function AddQuestionModal() {
           </div>
         )}
         <div className="mr-auto w-fit">
-          <Button
+          <Btn
             onClick={() => dispatch(HIDE_MODAL())}
             className="bg-red-500 px-6 text-white ml-3"
           >
             لغو
-          </Button>
-          <Button type="submit" className="bg-green-500 px-7 text-white">
-            نمایش سوالات
+          </Btn>
+          <Button
+            loading={isFetchingQuestion}
+            type="primary"
+            htmlType="submit"
+            className="bg-green-500 px-7 rounded-full border-none text-white"
+          >
+            دریافت سوالات
           </Button>
         </div>
       </form>

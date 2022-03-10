@@ -1,8 +1,9 @@
-import { notification, Radio, Space } from "antd";
-import { useCallback, useMemo } from "react";
+import { Radio, Space } from "antd";
+import { useMemo } from "react";
 import convertHardness from "../Helpers/convertHardness";
 import Button from "./Button";
 import Tag from "./Tag";
+import pushNotification from "../Helpers/pushNotification";
 
 function QuestionCard({
   questionTag,
@@ -17,13 +18,6 @@ function QuestionCard({
   const isCorrect = useMemo(() => {
     return choices.find((choice) => choice.is_correct);
   }, [choices]);
-
-  const pushNotification = useCallback((type, title) => {
-    notification[type]({
-      message: title,
-      description: null,
-    });
-  }, []);
 
   return (
     <div className="px-7 py-4 rounded-lg shadow-lg shadow-gray-200">
