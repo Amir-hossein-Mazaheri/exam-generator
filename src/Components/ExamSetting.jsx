@@ -7,7 +7,7 @@ import fetcher from "../Helpers/fetcher";
 import ExamTiming from "./ExamTiming";
 import SelectStudent from "./SelectStudent";
 
-function ExamSetting() {
+function ExamSetting({ isTest }) {
   const { id } = useParams();
 
   const { data: studentList } = useSWR("/students/", fetcher);
@@ -21,7 +21,7 @@ function ExamSetting() {
     return <Spinner />;
   }
 
-  console.log(studentList);
+  console.log(id);
 
   return (
     <div className="px-7 py-4 mt-10 mb-5 relative rounded-lg shadow-lg shadow-gray-200">
@@ -39,12 +39,21 @@ function ExamSetting() {
           }))}
         />
 
-        <Button
-          type="submit"
-          className="bg-green-500 text-white absolute top-5 left-3"
-        >
-          ذخیره تغییرات
-        </Button>
+        {!isTest ? (
+          <Button
+            type="submit"
+            className="bg-green-500 text-white absolute top-5 left-3"
+          >
+            برگزاری آزمون
+          </Button>
+        ) : (
+          <Button
+            type="submit"
+            className="bg-green-500 text-white absolute top-5 left-3"
+          >
+            ذخیره تغییرات
+          </Button>
+        )}
       </form>
     </div>
   );

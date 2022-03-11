@@ -1,16 +1,25 @@
 import { useParams } from "react-router";
+import useSWR from "swr";
 import ExamCard from "../Common/ExamCard";
+import Spinner from "../Common/Spinner";
 import ExamSetting from "../Components/ExamSetting";
+import fetcher from "../Helpers/fetcher";
 
 function ExamSettings() {
   const { id } = useParams();
 
-  console.log(id);
+  const { data: examData } = useSWR(`/raw_exams/${id}/`, fetcher);
+
+  if (!examData) {
+    return <Spinner />;
+  }
+
+  console.log(examData);
 
   return (
     <div>
       <ExamCard
-        title="جمع بندی فیزیک 2"
+        title={examData.name}
         count={{
           allCount: 20,
           eachCount: [
@@ -33,7 +42,7 @@ function ExamSettings() {
         }}
       />
 
-      <ExamSetting />
+      <ExamSetting isTest={examData.is_test_exam} />
     </div>
   );
 }
