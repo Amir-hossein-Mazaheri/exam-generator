@@ -3,16 +3,24 @@ import { Link } from "react-router-dom";
 import Button from "../Common/Button";
 import PrintMenu from "./PrintMenu";
 
-function RawExamOptions() {
+function RawExamOptions({ holdId }) {
   const buttonStyle = "bg-sky-500 text-white";
 
   return (
     <div className="flex justify-between">
-      <div>
-        <Link to="/">
-          <Button className={buttonStyle}>برگزاری آزمون</Button>
-        </Link>
+      <div className="flex gap-8">
+        <div>
+          <Link to={`/exam-settings/${holdId}`}>
+            <Button className={buttonStyle}>برگزاری آزمون</Button>
+          </Link>
+        </div>
+        <div>
+          <Link to="/">
+            <Button className={buttonStyle}>بازتولید و نشر</Button>
+          </Link>
+        </div>
       </div>
+
       <div>
         <Dropdown overlay={<PrintMenu />} placement="bottomCenter" arrow>
           <Button className={`${buttonStyle} flex items-center gap-[6px]`}>
@@ -33,11 +41,6 @@ function RawExamOptions() {
             <span>پرینت آزمون</span>
           </Button>
         </Dropdown>
-      </div>
-      <div>
-        <Link to="/">
-          <Button className={buttonStyle}>بازتولید و نشر</Button>
-        </Link>
       </div>
     </div>
   );
