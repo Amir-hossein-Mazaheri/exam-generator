@@ -3,16 +3,45 @@ import {
   DatePicker as DatePickerJalali,
   useJalaliLocaleListener,
 } from "antd-jalali";
+import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CHANGE_EXAM_SETTING } from "../Store/entities/ExamSettings";
 
 function ExamTiming() {
-  useJalaliLocaleListener();
+  useJalaliLocaleListener(); // just make data pickers show jalali date
 
   const dispatch = useDispatch();
 
   const { randomize, visibleAnswers } = useSelector(
     (store) => store.entities.ExamSettings
+  );
+
+  const setStartTime = useCallback(
+    (time) => {
+      // time is UTC
+      if (time) {
+        dispatch(
+          CHANGE_EXAM_SETTING({ property: "start", value: time.toISOString() })
+        );
+      } else {
+        dispatch(CHANGE_EXAM_SETTING({ property: "start", value: "" }));
+      }
+    },
+    [dispatch]
+  );
+
+  const setEndTime = useCallback(
+    (time) => {
+      // time is UTC
+      if (time) {
+        dispatch(
+          CHANGE_EXAM_SETTING({ property: "end", value: time.toISOString() })
+        );
+      } else {
+        dispatch(CHANGE_EXAM_SETTING({ property: "end", value: "" }));
+      }
+    },
+    [dispatch]
   );
 
   return (
@@ -21,19 +50,30 @@ function ExamTiming() {
         <div className="flex items-center gap-3">
           <span>تاریخ شروع آزمون</span>
           <span>
-            <DatePickerJalali />
+            <DatePickerJalali onChange={setStartTime} />
           </span>
         </div>
         <div className="flex items-center gap-3">
           <span>تاریخ پایان آزمون</span>
           <span>
-            <DatePickerJalali />
+            <DatePickerJalali onChange={setEndTime} />
           </span>
         </div>
         <div className="flex items-center gap-3">
           <span>مدت زمان مجاز</span>
           <span>
-            <Input type="number" placeholder="به دقیقه" />
+            <Input
+              onChange={(event) =>
+                dispatch(
+                  CHANGE_EXAM_SETTING({
+                    property: "duration",
+                    value: Number(event.target.value),
+                  })
+                )
+              }
+              type="number"
+              placeholder="به دقیقه"
+            />
           </span>
         </div>
       </div>
