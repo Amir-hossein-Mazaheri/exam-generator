@@ -1,10 +1,11 @@
 import { Input, Table } from "antd";
 import { useMemo, useState } from "react";
+import { useDispatch } from "react-redux";
+import { SET_STUDENT_LIST } from "../Store/entities/ExamSettings";
 
 function SelectStudent({ studentList }) {
+  const dispatch = useDispatch();
   const [query, setQuery] = useState("");
-
-  console.log(query);
 
   const formData = useMemo(() => {
     return [
@@ -31,22 +32,18 @@ function SelectStudent({ studentList }) {
     );
   }, [studentList, query]);
 
-  const selectionFunctionality = useMemo(() => {
+  const addStudentToState = useMemo(() => {
     return {
       onChange: (selectedRowKeys, selectedRows) => {
-        console.log(
-          `selectedRowKeys: ${selectedRowKeys}`,
-          "selectedRows: ",
-          selectedRows
-        );
+        const listOfStudentData = selectedRows.map((row) => ({
+          id: row.id,
+          key: row.id,
+        }));
+
+        dispatch(SET_STUDENT_LIST({ list: listOfStudentData }));
       },
-      getCheckboxProps: (record) => ({
-        disabled: record.name === "Disabled User",
-        // Column configuration not to be checked
-        name: record.name,
-      }),
     };
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="mt-5">
@@ -58,7 +55,7 @@ function SelectStudent({ studentList }) {
       <Table
         rowSelection={{
           type: "checkbox",
-          ...selectionFunctionality,
+          ...addStudentToState,
         }}
         pagination={false}
         columns={formData}
