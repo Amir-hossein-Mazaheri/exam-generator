@@ -1,22 +1,27 @@
-// import { DatePicker, Input } from "antd";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useParams } from "react-router";
+import useSWR from "swr";
 import Button from "../Common/Button";
+import Spinner from "../Common/Spinner";
+import fetcher from "../Helpers/fetcher";
 import ExamTiming from "./ExamTiming";
 import SelectStudent from "./SelectStudent";
 
 function ExamSetting() {
-  const [startTime, setStartTime] = useState();
-  const [endTime, setEndTime] = useState();
-  const [duration, setDuration] = useState();
   const { id } = useParams();
+
+  const { data: studentList } = useSWR("/students/", fetcher);
 
   const handleSaveSettings = useCallback((event) => {
     event.preventDefault();
     console.log(event);
   }, []);
 
-  console.log(id);
+  if (!studentList) {
+    return <Spinner />;
+  }
+
+  console.log(studentList);
 
   return (
     <div className="px-7 py-4 mt-10 mb-5 relative rounded-lg shadow-lg shadow-gray-200">
@@ -27,10 +32,10 @@ function ExamSetting() {
         <ExamTiming />
 
         <SelectStudent
-          studentList={[1, 2, 3, 4, 5].map((n) => ({
-            key: n,
-            fullname: `Mamad ${n}`,
-            id: Math.floor(Math.random(n) * 100),
+          studentList={studentList.map((student) => ({
+            key: student.id,
+            fullname: student.first_name + " " + student.last_name,
+            id: student.id,
           }))}
         />
 
