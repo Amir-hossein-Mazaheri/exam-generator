@@ -1,11 +1,19 @@
 import { Checkbox, Input } from "antd";
 import {
   DatePicker as DatePickerJalali,
-  JalaliLocaleListener,
+  useJalaliLocaleListener,
 } from "antd-jalali";
+import { useDispatch, useSelector } from "react-redux";
+import { CHANGE_EXAM_SETTING } from "../Store/entities/ExamSettings";
 
 function ExamTiming() {
+  useJalaliLocaleListener();
 
+  const dispatch = useDispatch();
+
+  const { randomize, visibleAnswers } = useSelector(
+    (store) => store.entities.ExamSettings
+  );
 
   return (
     <div className="space-y-8 mb-8">
@@ -13,14 +21,12 @@ function ExamTiming() {
         <div className="flex items-center gap-3">
           <span>تاریخ شروع آزمون</span>
           <span>
-            <JalaliLocaleListener />
             <DatePickerJalali />
           </span>
         </div>
         <div className="flex items-center gap-3">
           <span>تاریخ پایان آزمون</span>
           <span>
-            <JalaliLocaleListener />
             <DatePickerJalali />
           </span>
         </div>
@@ -32,10 +38,28 @@ function ExamTiming() {
         </div>
       </div>
       <div className="flex gap-8">
-        <Checkbox>
+        <Checkbox
+          onChange={() =>
+            dispatch(
+              CHANGE_EXAM_SETTING({
+                property: "visibleAnswers",
+                value: !visibleAnswers,
+              })
+            )
+          }
+        >
           <span>امکان مشاهده پاسخنامه برای دانش آموز</span>
         </Checkbox>
-        <Checkbox>
+        <Checkbox
+          onChange={() =>
+            dispatch(
+              CHANGE_EXAM_SETTING({
+                property: "randomize",
+                value: !randomize,
+              })
+            )
+          }
+        >
           <span>امکان تعویض نمایش سوالات</span>
         </Checkbox>
       </div>
