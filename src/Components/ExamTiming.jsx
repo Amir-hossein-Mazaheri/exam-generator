@@ -1,19 +1,27 @@
-import { Checkbox, DatePicker, Input } from "antd";
+import { Checkbox, Input } from "antd";
+import {
+  DatePicker as DatePickerJalali,
+  JalaliLocaleListener,
+} from "antd-jalali";
 
 function ExamTiming() {
+
+
   return (
     <div className="space-y-8 mb-8">
       <div className="flex gap-4">
         <div className="flex items-center gap-3">
           <span>تاریخ شروع آزمون</span>
           <span>
-            <DatePicker />
+            <JalaliLocaleListener />
+            <DatePickerJalali />
           </span>
         </div>
         <div className="flex items-center gap-3">
           <span>تاریخ پایان آزمون</span>
           <span>
-            <DatePicker />
+            <JalaliLocaleListener />
+            <DatePickerJalali />
           </span>
         </div>
         <div className="flex items-center gap-3">
