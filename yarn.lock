@@ -2381,6 +2381,15 @@ ansi-styles@^5.0.0:
   resolved "https://registry.yarnpkg.com/ansi-styles/-/ansi-styles-5.2.0.tgz#07449690ad45777d1924ac2abb2fc8895dba836b"
   integrity sha512-Cxwpt2SfTzTtXcfOlzGEee8O+c+MmUgGrNiBcXnuWxuFJHe6a5Hz7qwhwe5OgaSYI0IJvkLqWX1ASG+cJOkEiA==
 
+antd-jalali@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/antd-jalali/-/antd-jalali-1.0.3.tgz#26d3fcae213011dd991d844f81e00c6a36ce4191"
+  integrity sha512-+kvGRuwqO/VY2c/DG+JKDWJpdor/+oa9Ct5qEz+aZqydp5PzVH1EztFxsypAo/W9cP8cxvXzLRs65vn4DreTew==
+  dependencies:
+    dayjs "^1.10.8"
+    jalaliday "^2.3.0"
+    rc-picker "^2.6.4"
+
 antd@^4.18.9:
   version "4.18.9"
   resolved "https://registry.yarnpkg.com/antd/-/antd-4.18.9.tgz#a0d246786d5076ea7a53b67191cd39295fc2322a"
@@ -6078,7 +6087,7 @@ mkdirp@^0.5.5, mkdirp@~0.5.1:
   dependencies:
     minimist "^1.2.5"
 
-moment@^2.24.0, moment@^2.25.3, moment@^2.29.1:
+moment@^2.24.0, moment@^2.25.3:
   version "2.29.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.1.tgz#b2be769fa31940be9eeea6469c075e35006fa3d3"
   integrity sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==
@@ -7397,6 +7406,20 @@ rc-pagination@~3.1.9:
   dependencies:
     "@babel/runtime" "^7.10.1"
     classnames "^2.2.1"
+
+rc-picker@^2.6.4:
+  version "2.6.4"
+  resolved "https://registry.yarnpkg.com/rc-picker/-/rc-picker-2.6.4.tgz#916aa5fcd8abd11106f1c2fb64bfd549439abfa0"
+  integrity sha512-Mnc1udPyGNSG7/ya5SmYltUjCUcsMH7jfJnuuXVAvEaEdx9qZxDGMWtIii//+ARC06CSHQ83s5iwiGFwM+FcDw==
+  dependencies:
+    "@babel/runtime" "^7.10.1"
+    classnames "^2.2.1"
+    date-fns "2.x"
+    dayjs "1.x"
+    moment "^2.24.0"
+    rc-trigger "^5.0.4"
+    rc-util "^5.4.0"
+    shallowequal "^1.1.0"
 
 rc-picker@~2.5.17:
   version "2.5.19"
