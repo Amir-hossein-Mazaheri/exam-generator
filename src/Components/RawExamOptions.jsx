@@ -9,7 +9,7 @@ function RawExamOptions() {
   return (
     <div className="flex justify-between">
       <div>
-        <Link>
+        <Link to="/">
           <Button className={buttonStyle}>برگزاری آزمون</Button>
         </Link>
       </div>
@@ -35,7 +35,7 @@ function RawExamOptions() {
         </Dropdown>
       </div>
       <div>
-        <Link>
+        <Link to="/">
           <Button className={buttonStyle}>بازتولید و نشر</Button>
         </Link>
       </div>

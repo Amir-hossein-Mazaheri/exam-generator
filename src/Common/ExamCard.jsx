@@ -76,7 +76,7 @@ function ExamCard({
             <div>
               <Link to={settingLink}>
                 <Button className="rounded-full bg-green-500 text-white w-full">
-                  <span>تنظیمات و برگزاری</span>
+                  <span>برگزاری و چاپ</span>
                 </Button>
               </Link>
             </div>
