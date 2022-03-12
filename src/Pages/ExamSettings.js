@@ -1,25 +1,51 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import useSWR from "swr";
 import ExamCard from "../Common/ExamCard";
 import Spinner from "../Common/Spinner";
 import ExamSetting from "../Components/ExamSetting";
-import fetcher from "../Helpers/fetcher";
 
 function ExamSettings() {
+  const [isRaw, setIsRaw] = useState(false);
+  const [examData, setExamData] = useState();
+  const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams();
 
-  const { data: examData } = useSWR(`/raw_exams/${id}/`, fetcher);
+  // const { data: examData } = useSWR(`/raw_exams/${id}/`, fetcher);
 
-  if (!examData) {
+  useEffect(() => {
+    setIsLoading(true);
+    axios
+      .get(`/exams/${id}`)
+      .then((res) => {
+        setExamData(res.data);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        if (err.response.status === 404) {
+          setIsRaw(true);
+          setIsLoading(true);
+          axios.get(`/raw_exams/${id}`).then((res) => {
+            console.log(res);
+            setExamData(res.data);
+            setIsLoading(false);
+          });
+        } else {
+          console.log(err.response);
+        }
+      });
+  }, [id]);
+
+  if (!examData && isLoading) {
     return <Spinner />;
   }
 
-  console.log(examData);
+  console.log(isLoading);
 
   return (
     <div>
       <ExamCard
-        title={examData.name}
+        title={examData?.name}
         count={{
           allCount: 20,
           eachCount: [
@@ -42,7 +68,7 @@ function ExamSettings() {
         }}
       />
 
-      <ExamSetting isTest={examData.is_test_exam} />
+      <ExamSetting examData={examData} isRaw={isRaw} />
     </div>
   );
 }
