@@ -33,12 +33,16 @@ function HoldingExam() {
         >
           <TabPane tab="آزمون های در حال برگزاری" key="1">
             <BeingHoldExams
-              exams={exams.map((exam) => !isHolded(exam.end) && exam)}
+              exams={exams.map((exam) =>
+                !isHolded(exam.end) ? exam : null
+              )}
             />
           </TabPane>
           <TabPane tab="آزمون های برگزار شده" key="2">
             <HoldedExams
-              exams={exams.map((exam) => isHolded(exam.end) && exam)}
+              exams={exams.map((exam) =>
+                isHolded(exam.end) ? exam : null
+              )}
             />
           </TabPane>
         </Tabs>
