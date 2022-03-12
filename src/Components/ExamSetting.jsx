@@ -1,5 +1,6 @@
+import axios from "axios";
 import { useCallback } from "react";
-import { useParams } from "react-router";
+import { useSelector } from "react-redux";
 import useSWR from "swr";
 import Button from "../Common/Button";
 import Spinner from "../Common/Spinner";
@@ -7,21 +8,54 @@ import fetcher from "../Helpers/fetcher";
 import ExamTiming from "./ExamTiming";
 import SelectStudent from "./SelectStudent";
 
-function ExamSetting({ isTest }) {
-  const { id } = useParams();
+function ExamSetting({ examId }) {
+  const {
+    start,
+    end,
+    duration,
+    listOfStudents,
+    visibleAnswers,
+    randomize,
+    isRaw,
+  } = useSelector((store) => store.entities.ExamSettings);
 
   const { data: studentList } = useSWR("/students/", fetcher);
 
-  const handleSaveSettings = useCallback((event) => {
-    event.preventDefault();
-    console.log(event);
-  }, []);
+  const addExam = useCallback(() => {
+    const addPostData = {
+      raw_exam: examId,
+      start,
+      end,
+      time: duration,
+      is_viewing_answer_allowed: visibleAnswers,
+      allowed_students: listOfStudents,
+      randomize,
+    };
+    axios
+      .post("/exams/", addPostData)
+      .then((response) => console.log(response))
+      .catch((err) => console.log(err.response));
+  }, [duration, end, examId, listOfStudents, randomize, start, visibleAnswers]);
+
+  const editExam = useCallback(() => {}, []);
+
+  const handleSaveSettings = useCallback(
+    (event) => {
+      event.preventDefault();
+      if (isRaw) {
+        addExam();
+      } else {
+        editExam();
+      }
+    },
+    [addExam, editExam, isRaw]
+  );
 
   if (!studentList) {
     return <Spinner />;
   }
 
-  console.log(id);
+  console.log(examId);
 
   return (
     <div className="px-7 py-4 mt-10 mb-5 relative rounded-lg shadow-lg shadow-gray-200">
@@ -39,7 +73,7 @@ function ExamSetting({ isTest }) {
           }))}
         />
 
-        {!isTest ? (
+        {isRaw ? (
           <Button
             type="submit"
             className="bg-green-500 text-white absolute top-5 left-3"

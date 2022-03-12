@@ -17,8 +17,8 @@ function SingleRawExam() {
     if (!singleExam) return;
     const { created_at: start, updated_at: update } = singleExam;
     return {
-      created: showJalaliTime(start).split(" ")[0],
-      updated: showJalaliTime(update).split(" ")[0],
+      created: showJalaliTime(start).split(" ")[0], // just ignored the hour
+      updated: showJalaliTime(update).split(" ")[0], // just ignored the hour
     };
   }, [singleExam]);
 
@@ -31,7 +31,7 @@ function SingleRawExam() {
   return (
     <div>
       <div>
-        <RawExamOptions />
+        <RawExamOptions holdId={id} />
       </div>
 
       <div className="relative">

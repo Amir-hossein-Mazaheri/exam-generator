@@ -10,7 +10,7 @@ function RawExamOptions({ holdId }) {
     <div className="flex justify-between">
       <div className="flex gap-8">
         <div>
-          <Link to={`/exam-settings/${holdId}`}>
+          <Link to={`/raw-exam-settings/${holdId}`}>
             <Button className={buttonStyle}>برگزاری آزمون</Button>
           </Link>
         </div>

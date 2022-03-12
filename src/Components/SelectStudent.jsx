@@ -35,10 +35,7 @@ function SelectStudent({ studentList }) {
   const addStudentToState = useMemo(() => {
     return {
       onChange: (selectedRowKeys, selectedRows) => {
-        const listOfStudentData = selectedRows.map((row) => ({
-          id: row.id,
-          key: row.id,
-        }));
+        const listOfStudentData = selectedRows.map((row) => row.id);
 
         dispatch(SET_STUDENT_LIST({ list: listOfStudentData }));
       },

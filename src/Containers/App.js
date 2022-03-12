@@ -40,6 +40,10 @@ function App() {
             <Route path="/exam-results/:id" element={<ExamResults />} />
             <Route path="/student-result/:id" element={<StudentResult />} />
             <Route path="/exam-settings/:id" element={<ExamSettings />} />
+            <Route
+              path="/raw-exam-settings/:id"
+              element={<ExamSettings isRaw={true} />}
+            />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>

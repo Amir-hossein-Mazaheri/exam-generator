@@ -1,20 +1,20 @@
 import { Checkbox, Input } from "antd";
 import {
   DatePicker as DatePickerJalali,
-  useJalaliLocaleListener,
+  JalaliLocaleListener,
 } from "antd-jalali";
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { convertToJalaliDayJS } from "../Helpers/convertToJalali";
 import { CHANGE_EXAM_SETTING } from "../Store/entities/ExamSettings";
 
 function ExamTiming() {
-  useJalaliLocaleListener(); // just make data pickers show jalali date
+  // useJalaliLocaleListener(); // just make date pickers show jalali date
 
   const dispatch = useDispatch();
 
-  const { randomize, visibleAnswers } = useSelector(
-    (store) => store.entities.ExamSettings
-  );
+  const { randomize, visibleAnswers, start, end, duration, isRaw } =
+    useSelector((store) => store.entities.ExamSettings);
 
   const setStartTime = useCallback(
     (time) => {
@@ -44,19 +44,28 @@ function ExamTiming() {
     [dispatch]
   );
 
+  // console.log(dayjs(start).format("YYYY MM DD HH mm"));
+
   return (
     <div className="space-y-8 mb-8">
       <div className="flex gap-4">
         <div className="flex items-center gap-3">
           <span>تاریخ شروع آزمون</span>
           <span>
-            <DatePickerJalali onChange={setStartTime} />
+            <JalaliLocaleListener />
+            <DatePickerJalali
+              defaultValue={!isRaw ? convertToJalaliDayJS(start) : undefined}
+              onChange={setStartTime}
+            />
           </span>
         </div>
         <div className="flex items-center gap-3">
           <span>تاریخ پایان آزمون</span>
           <span>
-            <DatePickerJalali onChange={setEndTime} />
+            <DatePickerJalali
+              defaultValue={!isRaw ? convertToJalaliDayJS(end) : undefined}
+              onChange={setEndTime}
+            />
           </span>
         </div>
         <div className="flex items-center gap-3">
@@ -72,36 +81,43 @@ function ExamTiming() {
                 )
               }
               type="number"
+              defaultValue={duration}
               placeholder="به دقیقه"
             />
           </span>
         </div>
       </div>
       <div className="flex gap-8">
-        <Checkbox
-          onChange={() =>
-            dispatch(
-              CHANGE_EXAM_SETTING({
-                property: "visibleAnswers",
-                value: !visibleAnswers,
-              })
-            )
-          }
-        >
-          <span>امکان مشاهده پاسخنامه برای دانش آموز</span>
-        </Checkbox>
-        <Checkbox
-          onChange={() =>
-            dispatch(
-              CHANGE_EXAM_SETTING({
-                property: "randomize",
-                value: !randomize,
-              })
-            )
-          }
-        >
-          <span>امکان تعویض نمایش سوالات</span>
-        </Checkbox>
+        {!isRaw && (
+          <Checkbox
+            onChange={() =>
+              dispatch(
+                CHANGE_EXAM_SETTING({
+                  property: "visibleAnswers",
+                  value: !visibleAnswers,
+                })
+              )
+            }
+            checked={visibleAnswers}
+          >
+            <span>امکان مشاهده پاسخنامه برای دانش آموز</span>
+          </Checkbox>
+        )}
+
+        {isRaw && (
+          <Checkbox
+            onChange={() =>
+              dispatch(
+                CHANGE_EXAM_SETTING({
+                  property: "randomize",
+                  value: !randomize,
+                })
+              )
+            }
+          >
+            <span>امکان تعویض نمایش سوالات</span>
+          </Checkbox>
+        )}
       </div>
     </div>
   );
