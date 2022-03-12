@@ -8,27 +8,22 @@ import ExamSetting from "../Components/ExamSetting";
 function ExamSettings() {
   const [isRaw, setIsRaw] = useState(false);
   const [examData, setExamData] = useState();
-  const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams();
 
   // const { data: examData } = useSWR(`/raw_exams/${id}/`, fetcher);
 
   useEffect(() => {
-    setIsLoading(true);
     axios
       .get(`/exams/${id}`)
       .then((res) => {
         setExamData(res.data);
-        setIsLoading(false);
       })
       .catch((err) => {
         if (err.response.status === 404) {
           setIsRaw(true);
-          setIsLoading(true);
           axios.get(`/raw_exams/${id}`).then((res) => {
             console.log(res);
             setExamData(res.data);
-            setIsLoading(false);
           });
         } else {
           console.log(err.response);
@@ -36,11 +31,9 @@ function ExamSettings() {
       });
   }, [id]);
 
-  if (!examData && isLoading) {
+  if (!examData) {
     return <Spinner />;
   }
-
-  console.log(isLoading);
 
   return (
     <div>
