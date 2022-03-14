@@ -9,7 +9,7 @@ function HoldedExams({ exams }) {
           exam && (
             <ExamCard
               key={exam.id}
-              title="جمع بندی فیزیک 2"
+              title={exam.raw_exam.name}
               count={{
                 allCount: exam.raw_exam.questions_count,
                 eachCount: [
