@@ -105,8 +105,11 @@ function StudentResult() {
           key: index,
           number: index,
           status: "درست",
-          // selected: null,
-          // correct: 4,
+          selected: detail.choice ? (detail.choice.id % 4) + 1 : "نزده",
+          correct:
+            (detail.question.choices.find((choice) => choice.is_correct).id %
+              4) +
+            1,
         }))}
       />
 
