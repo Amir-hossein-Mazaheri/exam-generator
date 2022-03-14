@@ -43,15 +43,17 @@ function ExamResults() {
       />
 
       <ShowResults
-        studentInfo={[1, 2, 3, 4, 5, 6].map((n) => ({
-          key: { n },
-          fullname: "Jarokesh",
-          id: 523,
-          totalPercent: 52,
-          correctCount: 25,
-          wrongCount: 14,
-          emptyCount: 5,
+        studentInfo={students.map((student, index) => ({
+          key: student.answer_sheet,
+          fullname: /*student.student.first_name + " " + student.student.last_name*/ `دانش آموز ${index}`,
+          id: student.national_code,
+          answerSheet: student.answer_sheet,
+          totalPercent: student.percent,
+          correctCount: student.corrects,
+          wrongCount: student.wrongs,
+          emptyCount: student.noanswers,
         }))}
+        examId={id}
       />
     </div>
   );

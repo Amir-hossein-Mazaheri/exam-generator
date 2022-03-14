@@ -2,7 +2,7 @@ import { Table } from "antd";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 
-function ShowResults({ studentInfo }) {
+function ShowResults({ studentInfo, examId }) {
   const formColumns = useMemo(() => {
     return [
       {
@@ -10,7 +10,7 @@ function ShowResults({ studentInfo }) {
         dataIndex: "fullname",
         key: "fullname",
         render: (text, record) => (
-          <Link to={`/student-result/${record.id}`}>
+          <Link to={`/student-result/${examId}-${record.answerSheet}`}>
             <p>{text}</p>
           </Link>
         ),
@@ -46,7 +46,7 @@ function ShowResults({ studentInfo }) {
         render: (text) => <p>{text}</p>,
       },
     ];
-  }, []);
+  }, [examId]);
 
   return (
     <div className="mb-7">

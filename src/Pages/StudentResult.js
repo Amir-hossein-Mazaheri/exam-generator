@@ -1,38 +1,66 @@
 import { Descriptions } from "antd";
+import { useMemo } from "react";
 import { useParams } from "react-router";
+import useSWR from "swr";
 import ExamCard from "../Common/ExamCard";
+import Spinner from "../Common/Spinner";
 import AnswerList from "../Components/AnswerList";
+import FullAnswerList from "../Components/FullAnswerList";
+import { showJalaliTime } from "../Helpers/convertToJalali";
+import fetcher from "../Helpers/fetcher";
 
 const { Item } = Descriptions;
 
 function StudentResult() {
   const { id } = useParams();
 
-  console.log(id);
+  const [examId, answerListId] = useMemo(() => {
+    const [eId, aId] = id.split("-");
+    return [Number(eId), Number(aId)];
+  }, [id]);
+
+  const { data: studentResult } = useSWR(
+    `/exams/${examId}/students/${answerListId}/results/`,
+    fetcher
+  );
+
+  const { data: examData } = useSWR(`/exams/${examId}`, fetcher);
+
+  // useEffect(() => {
+  //   axios
+  //     .get(`/exams/${examId}/students/${answerListId}/results/`)
+  //     .then((res) => console.log(res))
+  //     .catch((err) => console.log(err.response));
+  // }, [answerListId, examId]);
+
+  if (!studentResult || !examData) {
+    return <Spinner />;
+  }
+
+  console.log(studentResult);
+  console.log(examData);
 
   return (
     <div>
       <ExamCard
-        title="جمع بندی فیزیک 2"
+        title={examData.raw_exam.name}
         count={{
-          allCount: 20,
+          allCount: examData.raw_exam.questions_count,
           eachCount: [
-            { title: "آسان", value: 5 },
-            { title: "متوسط", value: 5 },
-            { title: "سخت", value: 10 },
+            { title: "آسان", value: examData.raw_exam.easies_count },
+            { title: "متوسط", value: examData.raw_exam.mediums_count },
+            { title: "سخت", value: examData.raw_exam.hards_count },
           ],
         }}
         categories={[
-          { title: "رشته ها", values: ["تجربی", "ریاضی"] },
-          { title: "پایه ها", values: ["دوازدهم", "یازدهم"] },
-          { title: "درس ها", values: ["فیزیک 2"] },
-          { title: "مباحث", values: ["گرما", "الکتریسیه"] },
+          { title: "پایه ها", values: examData.raw_exam.grades },
+          { title: "درس ها", values: examData.raw_exam.courses },
+          { title: "مباحث", values: examData.raw_exam.subjects },
         ]}
         time={{
-          start: "1400/02/11",
-          end: "1400/02/12",
-          duration: "120 دقیقه",
-          attended: "2 / 3",
+          start: showJalaliTime(examData.start),
+          end: showJalaliTime(examData.end),
+          duration: examData.time + " دقیقه",
         }}
       />
 
@@ -42,51 +70,47 @@ function StudentResult() {
             <h3 className="text-lg font-bold">نتایج دانش آموز</h3>
             <h4 className="text-base font-semibold">
               <span>نام دانش آموز :</span>
-              <span>ممدی</span>
+              <span>{/* {student.name} */}</span>
             </h4>
             <h4 className="text-base font-semibold">
               <span>کد ملی :</span>
               <span>1258238470</span>
             </h4>
           </div>
-
-          <div className="space-y-4">
-            <p>
-              <span>تاریخ شروع آزمون :</span>
-              <span>1400/02/11 13:45</span>
-            </p>
-            <p>
-              <span>تاریخ پایان آزمون :</span>
-              <span>1400/02/11 14:45</span>
-            </p>
-            <p>
-              <span>مدت زمان آزمون دادن :</span>
-              <span>60 دقیقه</span>
-            </p>
-          </div>
         </div>
 
         <div className="mt-5 rounded-md bg-gray-100 px-5 pt-3">
           <Descriptions title={null}>
-            <Item label="تعداد کل">100</Item>
-            <Item label="نزده">20</Item>
-            <Item label="صحیح">60</Item>
-            <Item label="غلط">20</Item>
-            <Item label="درصد با نمره خام">75%</Item>
-            <Item label="درصد بدون نمره">80%</Item>
+            <Item label="تعداد کل">
+              <span></span>
+            </Item>
+            <Item label="نزده">
+              <span></span>
+            </Item>
+            <Item label="صحیح">
+              <span></span>
+            </Item>
+            <Item label="غلط">
+              <span></span>
+            </Item>
+            <Item label="درصد">
+              <span></span>
+            </Item>
           </Descriptions>
         </div>
       </div>
 
       <AnswerList
-        answers={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => ({
-          key: n,
-          number: n,
+        answers={studentResult.details.map((detail, index) => ({
+          key: index,
+          number: index,
           status: "درست",
-          selected: null,
-          correct: 4,
+          // selected: null,
+          // correct: 4,
         }))}
       />
+
+      <FullAnswerList answersList={studentResult.details} />
     </div>
   );
 }
