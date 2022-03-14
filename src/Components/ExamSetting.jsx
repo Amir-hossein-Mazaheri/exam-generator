@@ -1,23 +1,20 @@
 import axios from "axios";
 import { useCallback } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 import useSWR from "swr";
 import Button from "../Common/Button";
 import Spinner from "../Common/Spinner";
 import fetcher from "../Helpers/fetcher";
+import pushNotification from "../Helpers/pushNotification";
 import ExamTiming from "./ExamTiming";
 import SelectStudent from "./SelectStudent";
 
 function ExamSetting({ examId }) {
-  const {
-    start,
-    end,
-    duration,
-    listOfStudents,
-    visibleAnswers,
-    randomize,
-    isRaw,
-  } = useSelector((store) => store.entities.ExamSettings);
+  const { start, end, duration, listOfStudents, visibleAnswers, isRaw } =
+    useSelector((store) => store.entities.ExamSettings);
+
+  const navigate = useNavigate();
 
   const { data: studentList } = useSWR("/students/", fetcher);
 
@@ -29,15 +26,37 @@ function ExamSetting({ examId }) {
       time: duration,
       is_viewing_answer_allowed: visibleAnswers,
       allowed_students: listOfStudents,
-      randomize,
     };
     axios
       .post("/exams/", addPostData)
-      .then((response) => console.log(response))
+      .then((res) => {
+        console.log(res);
+        pushNotification("success", "آزمون با موفقیت افزوده شد.");
+        navigate("/holding-exam/", { replace: true });
+      })
       .catch((err) => console.log(err.response));
-  }, [duration, end, examId, listOfStudents, randomize, start, visibleAnswers]);
+  }, [duration, end, examId, listOfStudents, navigate, start, visibleAnswers]);
 
-  const editExam = useCallback(() => {}, []);
+  const editExam = useCallback(() => {
+    const addPostData = {
+      start,
+      end,
+      time: duration,
+      is_viewing_answer_allowed: visibleAnswers,
+      allowed_students: listOfStudents,
+    };
+    axios
+      .patch(`/exams/${examId}`, addPostData)
+      .then((res) => {
+        console.log(res);
+        pushNotification("success", "آزمون با موفقیت ویرایش شد.");
+        navigate("/holding-exam/", { replace: true });
+      })
+      .catch((err) => {
+        pushNotification("error", "آزمون ویرایش نشد.");
+        console.log(err.response);
+      });
+  }, [duration, end, examId, listOfStudents, navigate, start, visibleAnswers]);
 
   const handleSaveSettings = useCallback(
     (event) => {
