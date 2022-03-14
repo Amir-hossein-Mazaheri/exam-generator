@@ -17,8 +17,8 @@ function SingleRawExam() {
     if (!singleExam) return;
     const { created_at: start, updated_at: update } = singleExam;
     return {
-      created: showJalaliTime(start).split(" ")[0], // just ignored the hour
-      updated: showJalaliTime(update).split(" ")[0], // just ignored the hour
+      created: showJalaliTime(start), // just ignored the hour
+      updated: showJalaliTime(update), // just ignored the hour
     };
   }, [singleExam]);
 

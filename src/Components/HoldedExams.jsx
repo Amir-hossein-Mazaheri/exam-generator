@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import ExamCard from "../Common/ExamCard";
 import { showJalaliTime } from "../Helpers/convertToJalali";
 
@@ -30,6 +29,7 @@ function HoldedExams({ exams }) {
                 duration: exam.time + " دقیقه",
                 attended: exam.allowed_students.length,
               }}
+              resultsLink={{ link: `/exam-results/${exam.id}` }}
             />
           )
       )}

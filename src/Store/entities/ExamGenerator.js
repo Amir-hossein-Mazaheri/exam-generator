@@ -5,6 +5,7 @@ const initialGeneratorProperties = {
   hard: 0,
   medium: 0,
   easy: 0,
+  randomize: false,
   subjects: [],
 };
 

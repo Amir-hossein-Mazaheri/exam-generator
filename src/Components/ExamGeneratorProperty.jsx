@@ -1,7 +1,7 @@
-import { Input, message } from "antd";
+import { Checkbox, Input, message } from "antd";
 import axios from "axios";
 import { useCallback, useMemo, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import useSWR from "swr";
 import { Button } from "antd";
 import Categories from "../Common/Categories";
@@ -21,6 +21,10 @@ function ExamGeneratorProperty() {
   const { data: categoriesData } = useSWR("/majors/", fetcher);
 
   const dispatch = useDispatch();
+
+  const randomize = useSelector(
+    (store) => store.entities.ExamGenerator.randomize
+  );
 
   const setCategories = useCallback((values) => {
     setCat(convertChecker(values));
@@ -108,6 +112,21 @@ function ExamGeneratorProperty() {
               id="exam-name"
             />
           </div>
+        </div>
+
+        <div className="mt-5">
+          <Checkbox
+            onChange={() =>
+              dispatch(
+                SET_PROPERTIES({
+                  property: "randomize",
+                  value: !randomize,
+                })
+              )
+            }
+          >
+            <span>امکان تعویض نمایش سوالات</span>
+          </Checkbox>
         </div>
 
         <div className="px-5 py-3 bg-white shadow rounded-md mt-5">

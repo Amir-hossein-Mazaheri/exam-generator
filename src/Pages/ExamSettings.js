@@ -64,26 +64,46 @@ function ExamSettings({ isRaw = false }) {
     return <Spinner />;
   }
 
+  console.log(examData);
+
   return (
     <div>
-      <ExamCard
-        title={examData?.name}
-        count={{
-          allCount: 20,
-          eachCount: [
-            { title: "آسان", value: 5 },
-            { title: "متوسط", value: 5 },
-            { title: "سخت", value: 10 },
-          ],
-        }}
-        categories={[
-          { title: "رشته ها", values: ["تجربی", "ریاضی"] },
-          { title: "پایه ها", values: ["دوازدهم", "یازدهم"] },
-          { title: "درس ها", values: ["فیزیک 2"] },
-          { title: "مباحث", values: ["گرما", "الکتریسیه"] },
-        ]}
-        time={isRaw ? null : formExamTime}
-      />
+      {isRaw ? (
+        <ExamCard
+          title={examData.name}
+          count={{
+            allCount: examData.questions.length,
+            eachCount: [
+              { title: "آسان", value: 5 },
+              { title: "متوسط", value: 5 },
+              { title: "سخت", value: 10 },
+            ],
+          }}
+          categories={[
+            { title: "پایه ها", values: examData.grades },
+            { title: "درس ها", values: examData.courses },
+            { title: "مباحث", values: examData.subjects },
+          ]}
+        />
+      ) : (
+        <ExamCard
+          title={examData.raw_exam.name}
+          count={{
+            allCount: examData.raw_exam.questions_count,
+            eachCount: [
+              { title: "آسان", value: examData.raw_exam.easies_count },
+              { title: "متوسط", value: examData.raw_exam.mediums_count },
+              { title: "سخت", value: examData.raw_exam.hards_count },
+            ],
+          }}
+          categories={[
+            { title: "پایه ها", values: examData.raw_exam.grades },
+            { title: "درس ها", values: examData.raw_exam.courses },
+            { title: "مباحث", values: examData.raw_exam.subjects },
+          ]}
+          time={formExamTime}
+        />
+      )}
 
       <ExamSetting examId={id} />
     </div>

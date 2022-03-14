@@ -1,6 +1,5 @@
 import ExamCard from "../Common/ExamCard";
 import { showJalaliTime } from "../Helpers/convertToJalali";
-import { useEffect } from "react";
 
 function BeingHoldExams({ exams }) {
   return (
@@ -10,9 +9,9 @@ function BeingHoldExams({ exams }) {
           exam && (
             <ExamCard
               key={exam}
-              title="جمع بندی فیزیک 2"
+              title={exam.raw_exam.name}
               count={{
-                allCount: 20,
+                allCount: exam.raw_exam.questions_count,
                 eachCount: [
                   { title: "آسان", value: exam.raw_exam.easies_count },
                   { title: "متوسط", value: exam.raw_exam.mediums_count },
@@ -29,6 +28,10 @@ function BeingHoldExams({ exams }) {
                 end: showJalaliTime(exam.end),
                 duration: exam.time + " دقیقه",
                 attended: exam.allowed_students.length,
+              }}
+              resultsLink={{
+                link: `/exam-settings/${exam.id}`,
+                text: "ویرایش تنظیمات",
               }}
             />
           )

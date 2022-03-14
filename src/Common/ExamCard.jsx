@@ -85,9 +85,11 @@ function ExamCard({
       </div>
 
       {resultsLink && (
-        <Button className="rounded-full bg-blue-500 text-white flex mr-auto">
-          <span>نتایج شرکت کنندگان</span>
-        </Button>
+        <Link to={resultsLink.link}>
+          <Button className="rounded-full bg-blue-500 text-white flex mr-auto">
+            <span>{resultsLink.text || "نتایج شرکت کنندگان"}</span>
+          </Button>
+        </Link>
       )}
     </div>
   );

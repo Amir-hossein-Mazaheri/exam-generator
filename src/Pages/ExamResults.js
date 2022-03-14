@@ -1,33 +1,44 @@
 import { useParams } from "react-router";
+import useSWR from "swr";
 import ExamCard from "../Common/ExamCard";
+import Spinner from "../Common/Spinner";
 import ShowResults from "../Components/ShowResults";
+import { showJalaliTime } from "../Helpers/convertToJalali";
+import fetcher from "../Helpers/fetcher";
 
 function ExamResults() {
   const { id } = useParams();
 
+  const { data: examData } = useSWR(`/exams/${id}/`, fetcher);
+  const { data: students } = useSWR(`/exams/${id}/students/`, fetcher);
+
+  if (!examData || !students) {
+    return <Spinner />;
+  }
+
+  console.log(students);
+
   return (
     <div>
       <ExamCard
-        title="جمع بندی فیزیک 2"
+        title={examData.raw_exam.name}
         count={{
-          allCount: 20,
+          allCount: examData.raw_exam.questions_count,
           eachCount: [
-            { title: "آسان", value: 5 },
-            { title: "متوسط", value: 5 },
-            { title: "سخت", value: 10 },
+            { title: "آسان", value: examData.raw_exam.easies_count },
+            { title: "متوسط", value: examData.raw_exam.mediums_count },
+            { title: "سخت", value: examData.raw_exam.hards_count },
           ],
         }}
         categories={[
-          { title: "رشته ها", values: ["تجربی", "ریاضی"] },
-          { title: "پایه ها", values: ["دوازدهم", "یازدهم"] },
-          { title: "درس ها", values: ["فیزیک 2"] },
-          { title: "مباحث", values: ["گرما", "الکتریسیه"] },
+          { title: "پایه ها", values: examData.raw_exam.courses },
+          { title: "درس ها", values: examData.raw_exam.grades },
+          { title: "مباحث", values: examData.raw_exam.subjects },
         ]}
         time={{
-          start: "1400/02/11",
-          end: "1400/02/12",
-          duration: "120 دقیقه",
-          attended: "2 / 3",
+          start: showJalaliTime(examData.start),
+          end: showJalaliTime(examData.end),
+          duration: examData.time + " دقیقه",
         }}
       />
 

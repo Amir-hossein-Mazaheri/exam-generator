@@ -6,7 +6,6 @@ const initialSettings = {
   duration: 0,
   listOfStudents: [],
   visibleAnswers: false,
-  randomize: false,
   isRaw: false,
 };
 

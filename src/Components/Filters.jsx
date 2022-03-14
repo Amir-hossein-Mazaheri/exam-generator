@@ -33,9 +33,6 @@ function Filters() {
             />
           </div>
         </div>
-        <div className="mt-5 rounded-md bg-white p-3 overflow-hidden">
-          <Categories />
-        </div>
         <Button
           type="submit"
           name="apply-filter"

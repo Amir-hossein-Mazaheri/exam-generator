@@ -17,8 +17,8 @@ function SelectStudent({ studentList }) {
       },
       {
         title: "کد ملی",
-        dataIndex: "id",
-        key: "id",
+        dataIndex: "nationalCode",
+        key: "nationalCode",
         render: (text) => <p>{text}</p>,
       },
     ];

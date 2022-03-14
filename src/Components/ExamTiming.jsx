@@ -1,22 +1,26 @@
-import { Checkbox, Input } from "antd";
+import { Checkbox, Input, TimePicker } from "antd";
 import {
   DatePicker as DatePickerJalali,
   JalaliLocaleListener,
 } from "antd-jalali";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import "dayjs/locale/fa";
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { convertToJalaliDayJS } from "../Helpers/convertToJalali";
 import { CHANGE_EXAM_SETTING } from "../Store/entities/ExamSettings";
 
-function ExamTiming() {
-  // useJalaliLocaleListener(); // just make date pickers show jalali date
+dayjs.extend(utc);
 
+function ExamTiming() {
   const dispatch = useDispatch();
 
-  const { randomize, visibleAnswers, start, end, duration, isRaw } =
-    useSelector((store) => store.entities.ExamSettings);
+  const { visibleAnswers, start, end, duration, isRaw } = useSelector(
+    (store) => store.entities.ExamSettings
+  );
 
-  const setStartTime = useCallback(
+  const setStartDate = useCallback(
     (time) => {
       // time is UTC
       if (time) {
@@ -30,7 +34,7 @@ function ExamTiming() {
     [dispatch]
   );
 
-  const setEndTime = useCallback(
+  const setEndDate = useCallback(
     (time) => {
       // time is UTC
       if (time) {
@@ -44,29 +48,71 @@ function ExamTiming() {
     [dispatch]
   );
 
-  // console.log(dayjs(start).format("YYYY MM DD HH mm"));
+  const setStartTime = useCallback(
+    (time, timeString) => {
+      const [hour, minute] = timeString.split(":");
+      console.log(
+        dayjs(start).hour(hour).minute(minute).format("YYYY MM DD HH:mm")
+      );
+
+      if (time) {
+        dispatch(
+          CHANGE_EXAM_SETTING({
+            property: "start",
+            value: dayjs(start).hour(hour).minute(minute).toISOString(),
+          })
+        );
+      }
+    },
+    [dispatch, start]
+  );
+
+  const setEndTime = useCallback(
+    (time, timeString) => {
+      const [hour, minute] = timeString.split(":");
+      if (time) {
+        dispatch(
+          CHANGE_EXAM_SETTING({
+            property: "end",
+            value: dayjs(end).hour(hour).minute(minute).toISOString(),
+          })
+        );
+      }
+    },
+    [dispatch, end]
+  );
 
   return (
     <div className="space-y-8 mb-8">
       <div className="flex gap-4">
         <div className="flex items-center gap-3">
-          <span>تاریخ شروع آزمون</span>
-          <span>
-            <JalaliLocaleListener />
+          <p>تاریخ شروع آزمون</p>
+          <JalaliLocaleListener />
+          <div className="flex flex-col gap-5">
             <DatePickerJalali
               defaultValue={!isRaw ? convertToJalaliDayJS(start) : undefined}
-              onChange={setStartTime}
+              onChange={setStartDate}
             />
-          </span>
+            <TimePicker
+              defaultValue={!isRaw ? dayjs(start) : undefined}
+              onChange={setStartTime}
+              format={"HH:mm"}
+            />
+          </div>
         </div>
         <div className="flex items-center gap-3">
-          <span>تاریخ پایان آزمون</span>
-          <span>
+          <p>تاریخ پایان آزمون</p>
+          <div className="flex flex-col gap-5">
             <DatePickerJalali
               defaultValue={!isRaw ? convertToJalaliDayJS(end) : undefined}
-              onChange={setEndTime}
+              onChange={setEndDate}
             />
-          </span>
+            <TimePicker
+              defaultValue={!isRaw ? dayjs(end) : undefined}
+              onChange={setEndTime}
+              format={"HH:mm"}
+            />
+          </div>
         </div>
         <div className="flex items-center gap-3">
           <span>مدت زمان مجاز</span>
@@ -101,21 +147,6 @@ function ExamTiming() {
             checked={visibleAnswers}
           >
             <span>امکان مشاهده پاسخنامه برای دانش آموز</span>
-          </Checkbox>
-        )}
-
-        {isRaw && (
-          <Checkbox
-            onChange={() =>
-              dispatch(
-                CHANGE_EXAM_SETTING({
-                  property: "randomize",
-                  value: !randomize,
-                })
-              )
-            }
-          >
-            <span>امکان تعویض نمایش سوالات</span>
           </Checkbox>
         )}
       </div>
