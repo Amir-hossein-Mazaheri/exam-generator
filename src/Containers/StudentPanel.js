@@ -5,7 +5,7 @@ import store from "../Store/configStore";
 import App from "./App";
 import axios from "axios";
 
-axios.defaults.baseURL = "http://51.89.109.247:8000";
+axios.defaults.baseURL = "http://lapluse.ir/examapi";
 
 function StudentPanel() {
   return (

@@ -3,21 +3,28 @@ import ExamCard from "../Common/ExamCard";
 import Filter from "../Components/FilterHolder";
 import fetcher from "../Helpers/fetcher";
 import Spinner from "../Common/Spinner";
+import { useSelector } from "react-redux";
 
 function RawExams() {
+  let rawExams;
+  const { rawExams: filteredExams } = useSelector(
+    (store) => store.entities.RawExams
+  );
   const { data: rawQuestions } = useSWR("/raw_exams/", fetcher);
 
   if (!rawQuestions) {
     return <Spinner />;
   }
 
-  console.log(rawQuestions);
+  rawExams = filteredExams.length > 0 ? filteredExams : rawQuestions;
+
+  console.log(rawExams);
 
   return (
     <div>
       <Filter />
       <div className="space-y-8">
-        {rawQuestions.map((question) => (
+        {rawExams.map((question) => (
           <ExamCard
             key={question.id}
             title={question.name}
