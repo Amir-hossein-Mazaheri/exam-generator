@@ -9,13 +9,18 @@ import Spinner from "../Common/Spinner";
 import convertChecker from "../Helpers/categoryChcker";
 import convertCategory from "../Helpers/categoryConvertor";
 import fetcher from "../Helpers/fetcher";
-import { SET_PROPERTIES, SET_QUESTIONS } from "../Store/entities/ExamGenerator";
+import {
+  SET_PROPERTIES,
+  SET_QUESTIONS,
+  TOGGLE_RANDOMIZE,
+} from "../Store/entities/ExamGenerator";
 
 function ExamGeneratorProperty() {
   const [name, setName] = useState("");
   const [hard, setHard] = useState(0);
   const [medium, setMedium] = useState(0);
   const [easy, setEasy] = useState(0);
+  // const [randomize, setRandomize] = useState(false);
   const [cat, setCat] = useState([]);
   const [isQuestionLoading, setIsQuestionLoading] = useState(false);
   const { data: categoriesData } = useSWR("/majors/", fetcher);
@@ -116,11 +121,10 @@ function ExamGeneratorProperty() {
 
         <div className="mt-5">
           <Checkbox
-            onChange={() =>
+            onChange={(event) =>
               dispatch(
-                SET_PROPERTIES({
-                  property: "randomize",
-                  value: !randomize,
+                TOGGLE_RANDOMIZE({
+                  status: event.target.checked,
                 })
               )
             }

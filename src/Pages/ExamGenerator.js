@@ -11,9 +11,10 @@ import { message } from "antd";
 
 function ExamGenerator() {
   const dispatch = useDispatch();
-  const { generatedQuestions, generatorProperties: { name } } = useSelector(
-    (store) => store.entities.ExamGenerator
-  );
+  const {
+    generatedQuestions,
+    generatorProperties: { name, randomize },
+  } = useSelector((store) => store.entities.ExamGenerator);
 
   const saveExam = useCallback(() => {
     console.log(name);
@@ -21,15 +22,15 @@ function ExamGenerator() {
       .post("/raw_exams/", {
         questions: generatedQuestions.map((question) => question.id),
         name: name,
+        randomize,
       })
       .then((res) => {
-        message.success(
-          `آزمون ${name} با موفقیت ساخته شد.`
-        );
+        message.success(`آزمون ${name} با موفقیت ساخته شد.`);
+        console.log(res);
         dispatch(RESET_GENERATOR());
       })
       .catch((err) => console.log(err.response));
-  }, [dispatch, generatedQuestions, name]);
+  }, [dispatch, generatedQuestions, name, randomize]);
 
   return (
     <div>
