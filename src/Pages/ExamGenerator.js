@@ -1,13 +1,14 @@
-import Button from "../Common/Button";
+import { useCallback } from "react";
+
 import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { message } from "antd";
+import Button from "../Common/Button";
 import ExamGeneratorProperty from "../Components/ExamGeneratorProperty";
 import GeneratedExam from "../Components/GeneratedExam";
-import { SHOW_MODAL } from "../Store/ui";
 import AddQuestionModal from "../Components/AddQuestionModal";
-import { useCallback } from "react";
-import axios from "axios";
+import { SHOW_MODAL } from "../Store/ui";
 import { RESET_GENERATOR } from "../Store/entities/ExamGenerator";
-import { message } from "antd";
 
 function ExamGenerator() {
   const dispatch = useDispatch();
