@@ -1,7 +1,7 @@
 import { Checkbox, Input, message } from "antd";
 import axios from "axios";
 import { useCallback, useMemo, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import useSWR from "swr";
 import { Button } from "antd";
 import Categories from "../Common/Categories";
@@ -26,10 +26,6 @@ function ExamGeneratorProperty() {
   const { data: categoriesData } = useSWR("/majors/", fetcher);
 
   const dispatch = useDispatch();
-
-  const randomize = useSelector(
-    (store) => store.entities.ExamGenerator.randomize
-  );
 
   const setCategories = useCallback((values) => {
     setCat(convertChecker(values));
@@ -73,8 +69,6 @@ function ExamGeneratorProperty() {
   if (!categoriesData) {
     return <Spinner />;
   }
-
-  // console.log(categories);
 
   return (
     <div className="px-7 py-4 rounded-lg shadow-lg shadow-gray-200">
