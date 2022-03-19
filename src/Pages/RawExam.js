@@ -4,6 +4,8 @@ import Filter from "../Components/FilterHolder";
 import fetcher from "../Helpers/fetcher";
 import Spinner from "../Common/Spinner";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import axios from "axios";
 
 function RawExams() {
   let rawExams;
@@ -11,6 +13,13 @@ function RawExams() {
     (store) => store.entities.RawExams
   );
   const { data: rawQuestions } = useSWR("/raw_exams/", fetcher);
+
+  useEffect(() => {
+    axios
+      .get("/raw_exams/")
+      .then((res) => console.log("JWT test", res))
+      .catch((err) => console.log("JWT test", err.response));
+  }, []);
 
   if (!rawQuestions) {
     return <Spinner />;
