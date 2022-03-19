@@ -45,7 +45,6 @@ function ExamGeneratorProperty() {
           subjects: cat,
         })
         .then((res) => {
-          setIsQuestionLoading(false);
           if (res.data.length === 0) {
             message.error("سوالی با این مشخصات پیدا نشد.");
             return;
@@ -57,6 +56,10 @@ function ExamGeneratorProperty() {
           dispatch(SET_PROPERTIES({ property: "medium", value: medium }));
           dispatch(SET_PROPERTIES({ property: "easy", value: easy }));
           dispatch(SET_PROPERTIES({ property: "subjects", value: cat }));
+        })
+        .catch((err) => console.log(err.response))
+        .finally(() => {
+          setIsQuestionLoading(false);
         });
     },
     [easy, hard, medium, name, cat, dispatch]
