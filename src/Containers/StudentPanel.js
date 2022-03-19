@@ -26,8 +26,6 @@ axios.interceptors.response.use(
   }
 );
 
-console.log();
-
 function StudentPanel() {
   return (
     <Provider store={store}>
