@@ -19,15 +19,13 @@ class Auth {
   checkHasConfirmed() {
     return decode(localStorage.getItem("access")).has_confirmed;
   }
-  async getNewAccessToken(refresh) {
-    const formData = new FormData();
-    formData.append("refresh", refresh);
+  async getNewAccessToken() {
+    console.log("Refreshing Access Token");
     try {
-      const { data } = await axios.post(
-        "https://api.aicup.iut.ac.ir/accounts/login/refresh/",
-        formData
-      );
-
+      const { data } = await axios.post("/login/refresh/", {
+        refresh: this.getToken("refresh"),
+      });
+      console.log(data);
       this.setAccessToken(data.access);
       return data.access;
     } catch (e) {
@@ -50,6 +48,13 @@ class Auth {
     return localStorage.getItem(key);
   }
 
+  login(access, refresh) {
+    // Saves user token to localStorage
+    // localStorage.setItem(key, token);
+    localStorage.setItem("access", access);
+    localStorage.setItem("refresh", refresh);
+  }
+
   isLoggedIn() {
     const access = this.getToken("access");
     const refresh = this.getToken("refresh");
@@ -57,13 +62,6 @@ class Auth {
       return true;
     }
     return false;
-  }
-
-  login(access, refresh) {
-    // Saves user token to localStorage
-    // localStorage.setItem(key, token);
-    localStorage.setItem("access", access);
-    localStorage.setItem("refresh", refresh);
   }
 
   setRefreshToken(ref) {
@@ -75,7 +73,7 @@ class Auth {
   logout() {
     this.setAccessToken("");
     this.setRefreshToken("");
-    window.location.reload();
+    // window.location.reload();
   }
 }
 
