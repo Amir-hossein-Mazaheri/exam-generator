@@ -1,18 +1,6 @@
-import axios from "axios";
-import { useEffect } from "react";
 import Card from "../Components/Card";
 
 function HomePage() {
-  useEffect(() => {
-    axios.get("/panel/").then((res) => {
-      const role = res.data.role;
-      console.log(role);
-      if (role !== "exam_creator") {
-        window.location.replace("http://lapluse.ir/exam-login/");
-      }
-    });
-  }, []);
-
   return (
     <div className="flex gap-8">
       <Card to="/raw-exams" title="لیست آزمون های ساخته شده" className="grow" />

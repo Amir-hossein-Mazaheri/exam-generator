@@ -18,7 +18,7 @@ axios.interceptors.response.use(
     const config = err.config;
     if (isRefreshExpired) {
       Auth.logout();
-      window.location.replace("http://lapluse.ir/");
+      window.location.replace("http://lapluse.ir/exam-login/");
     }
     console.log("getting refresh !");
     const refresh = await Auth.checkLogin();
@@ -33,7 +33,15 @@ function StudentPanel() {
     const isLoggedIn = Auth.isLoggedIn();
     if (!isLoggedIn) {
       window.location.replace("http://lapluse.ir/exam-login/");
+      return;
     }
+    axios.get("/panel/").then((res) => {
+      const role = res.data.role;
+      console.log(role);
+      if (role !== "exam_creator") {
+        window.location.replace("http://lapluse.ir/exam-login/");
+      }
+    });
   });
 
   return (
