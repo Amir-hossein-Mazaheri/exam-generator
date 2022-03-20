@@ -1,13 +1,13 @@
 import { Menu } from "antd";
 
-function PrintMenu() {
+function PrintMenu({ rawExamId }) {
   return (
     <Menu>
       <Menu.Item>
         <a
           target="_blank"
           rel="noopener noreferrer"
-          href="https://www.antgroup.com"
+          href={`http://lapluse.ir/examapi/print_exam_questions/${rawExamId}`}
         >
           <span>پرینت آزمون</span>
         </a>
@@ -16,7 +16,7 @@ function PrintMenu() {
         <a
           target="_blank"
           rel="noopener noreferrer"
-          href="https://www.aliyun.com"
+          href={`http://lapluse.ir/examapi/print_exam_answers/${rawExamId}`}
         >
           <span>پرینت پاسخنامه تشریحی</span>
         </a>
@@ -25,7 +25,7 @@ function PrintMenu() {
         <a
           target="_blank"
           rel="noopener noreferrer"
-          href="https://www.luohanacademy.com"
+          href={`http://lapluse.ir/examapi/print_exam_keys/${rawExamId}`}
         >
           <span>پرینت کلید آزمون</span>
         </a>

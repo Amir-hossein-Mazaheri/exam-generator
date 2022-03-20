@@ -16,9 +16,8 @@ dayjs.extend(utc);
 function ExamTiming() {
   const dispatch = useDispatch();
 
-  const { visibleAnswers, start, end, duration, isRaw } = useSelector(
-    (store) => store.entities.ExamSettings
-  );
+  const { visibleAnswers, randomize, start, end, duration, isRaw } =
+    useSelector((store) => store.entities.ExamSettings);
 
   const setStartDate = useCallback(
     (time) => {
@@ -134,19 +133,32 @@ function ExamTiming() {
         </div>
       </div>
       <div className="flex gap-8">
-        {!isRaw && (
+        <Checkbox
+          onChange={() =>
+            dispatch(
+              CHANGE_EXAM_SETTING({
+                property: "visibleAnswers",
+                value: !visibleAnswers,
+              })
+            )
+          }
+          checked={visibleAnswers}
+        >
+          <span>امکان مشاهده پاسخنامه برای دانش آموز</span>
+        </Checkbox>
+        {isRaw && (
           <Checkbox
-            onChange={() =>
+            onChange={(event) =>
               dispatch(
                 CHANGE_EXAM_SETTING({
-                  property: "visibleAnswers",
-                  value: !visibleAnswers,
+                  property: "randomize",
+                  value: event.target.checked,
                 })
               )
             }
-            checked={visibleAnswers}
+            checked={randomize}
           >
-            <span>امکان مشاهده پاسخنامه برای دانش آموز</span>
+            <span>تعویض ترتیب نمایش سوالات</span>
           </Checkbox>
         )}
       </div>

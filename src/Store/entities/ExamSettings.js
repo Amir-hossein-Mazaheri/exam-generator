@@ -7,6 +7,7 @@ const initialSettings = {
   listOfStudents: [],
   visibleAnswers: false,
   isRaw: false,
+  randomize: false,
 };
 
 const examSettings = createSlice({
@@ -28,6 +29,9 @@ const examSettings = createSlice({
     SET_IS_RAW: (store, action) => {
       store.isRaw = action.payload.value;
     },
+    TOGGLE_RANDOMIZE: (store, action) => {
+      store.randomize = action.payload.status;
+    },
   },
 });
 
@@ -39,4 +43,5 @@ export const {
   PUSH_TO_STUDENT_LIST,
   RESET_EXAM_SETTINGS,
   SET_IS_RAW,
+  TOGGLE_RANDOMIZE,
 } = examSettings.actions;

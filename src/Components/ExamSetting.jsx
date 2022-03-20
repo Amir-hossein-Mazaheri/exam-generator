@@ -11,8 +11,15 @@ import ExamTiming from "./ExamTiming";
 import SelectStudent from "./SelectStudent";
 
 function ExamSetting({ examId }) {
-  const { start, end, duration, listOfStudents, visibleAnswers, isRaw } =
-    useSelector((store) => store.entities.ExamSettings);
+  const {
+    start,
+    end,
+    duration,
+    listOfStudents,
+    visibleAnswers,
+    isRaw,
+    randomize,
+  } = useSelector((store) => store.entities.ExamSettings);
 
   const navigate = useNavigate();
 
@@ -26,6 +33,7 @@ function ExamSetting({ examId }) {
       time: duration,
       is_viewing_answer_allowed: visibleAnswers,
       allowed_students: listOfStudents,
+      randomize,
     };
     axios
       .post("/exams/", addPostData)
@@ -35,7 +43,16 @@ function ExamSetting({ examId }) {
         navigate("/holding-exam/", { replace: true });
       })
       .catch((err) => console.log(err.response));
-  }, [duration, end, examId, listOfStudents, navigate, start, visibleAnswers]);
+  }, [
+    duration,
+    end,
+    examId,
+    listOfStudents,
+    navigate,
+    randomize,
+    start,
+    visibleAnswers,
+  ]);
 
   const editExam = useCallback(() => {
     const addPostData = {

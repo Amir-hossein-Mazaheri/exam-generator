@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 
-import { Checkbox, Input, message } from "antd";
+import { Input, message } from "antd";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import useSWR from "swr";
@@ -10,11 +10,7 @@ import Spinner from "../Common/Spinner";
 import convertChecker from "../Helpers/categoryChcker";
 import convertCategory from "../Helpers/categoryConvertor";
 import fetcher from "../Helpers/fetcher";
-import {
-  SET_PROPERTIES,
-  SET_QUESTIONS,
-  TOGGLE_RANDOMIZE,
-} from "../Store/entities/ExamGenerator";
+import { SET_PROPERTIES, SET_QUESTIONS } from "../Store/entities/ExamGenerator";
 
 function ExamGeneratorProperty() {
   const [hard, setHard] = useState(0);
@@ -25,7 +21,7 @@ function ExamGeneratorProperty() {
 
   const {
     isRedirectedFromRawExam,
-    generatorProperties: { name, hard: hd, medium: md, easy: es, randomize },
+    generatorProperties: { name, hard: hd, medium: md, easy: es },
   } = useSelector((store) => store.entities.ExamGenerator);
 
   const { data: categoriesData } = useSWR("/majors/", fetcher);
@@ -131,21 +127,6 @@ function ExamGeneratorProperty() {
               disabled={isRedirectedFromRawExam}
             />
           </div>
-        </div>
-
-        <div className="mt-5">
-          <Checkbox
-            onChange={(event) =>
-              dispatch(
-                TOGGLE_RANDOMIZE({
-                  status: event.target.checked,
-                })
-              )
-            }
-            checked={randomize}
-          >
-            <span>امکان تعویض نمایش سوالات</span>
-          </Checkbox>
         </div>
 
         <div

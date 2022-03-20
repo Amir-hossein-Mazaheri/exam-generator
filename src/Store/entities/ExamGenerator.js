@@ -5,7 +5,6 @@ const initialGeneratorProperties = {
   hard: 0,
   medium: 0,
   easy: 0,
-  randomize: false,
   subjects: [],
 };
 
@@ -19,9 +18,6 @@ const ExamGenerator = createSlice({
   reducers: {
     SET_PROPERTIES: (store, action) => {
       store.generatorProperties[action.payload.property] = action.payload.value;
-    },
-    TOGGLE_RANDOMIZE: (store, action) => {
-      store.generatorProperties.randomize = action.payload.status;
     },
     SET_QUESTIONS: (store, action) => {
       store.generatedQuestions = action.payload.questions;
@@ -44,7 +40,6 @@ export default ExamGenerator.reducer;
 
 export const {
   SET_PROPERTIES,
-  TOGGLE_RANDOMIZE,
   SET_QUESTIONS,
   RESET_GENERATOR,
   APPEND_QUESTION,

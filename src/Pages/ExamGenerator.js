@@ -16,7 +16,7 @@ function ExamGenerator() {
   const navigate = useNavigate();
   const {
     generatedQuestions,
-    generatorProperties: { name, randomize },
+    generatorProperties: { name },
   } = useSelector((store) => store.entities.ExamGenerator);
 
   const saveExam = useCallback(() => {
@@ -25,7 +25,6 @@ function ExamGenerator() {
       .post("/raw_exams/", {
         questions: generatedQuestions.map((question) => question.id),
         name: name,
-        randomize,
       })
       .then((res) => {
         message.success(`آزمون ${name} با موفقیت ساخته شد.`);
@@ -33,7 +32,7 @@ function ExamGenerator() {
         navigate("/");
       })
       .catch((err) => console.log(err.response));
-  }, [generatedQuestions, name, navigate, randomize]);
+  }, [generatedQuestions, name, navigate]);
 
   useEffect(() => {
     return () => {

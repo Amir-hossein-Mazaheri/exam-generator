@@ -25,11 +25,15 @@ axios.interceptors.response.use(
   (config) => config,
   async (err) => {
     const config = err.config;
-    console.log("getting refresh !");
-    const refresh = await Auth.checkLogin();
-    localStorage.setItem("refresh", refresh);
-    config.headers["Authorization"] = "Bearer " + refresh;
-    return axios(config);
+    if (err.response.status === 401) {
+      console.log("getting refresh !");
+      const refresh = await Auth.checkLogin();
+      localStorage.setItem("refresh", refresh);
+      config.headers["Authorization"] = "Bearer " + refresh;
+      return axios(config);
+    }
+
+    return Promise.reject(err);
   }
 );
 

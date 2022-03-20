@@ -60,7 +60,7 @@ function AddQuestionModal() {
           setFetchedQuestions(res.data.results);
           setIsFetchingQuestion(false);
           if (res.data.results.length === 0) {
-            pushNotification("warning", "سوالی با این مشخصات یافت نشد.")
+            pushNotification("warning", "سوالی با این مشخصات یافت نشد.");
           }
           console.log(res.data);
         });
@@ -88,9 +88,9 @@ function AddQuestionModal() {
             className="mx-auto mb-5 mt-3"
             buttonStyle="solid"
           >
-            <Radio.Button value={1}>سخت</Radio.Button>
+            <Radio.Button value={3}>سخت</Radio.Button>
             <Radio.Button value={2}>متسوط</Radio.Button>
-            <Radio.Button value={3}>آسان</Radio.Button>
+            <Radio.Button value={1}>آسان</Radio.Button>
           </Radio.Group>
           <Categories
             onCheck={(values) => setCategories(values)}

@@ -26,18 +26,11 @@ function StudentResult() {
 
   const { data: examData } = useSWR(`/exams/${examId}`, fetcher);
 
-  // useEffect(() => {
-  //   axios
-  //     .get(`/exams/${examId}/students/${answerListId}/results/`)
-  //     .then((res) => console.log(res))
-  //     .catch((err) => console.log(err.response));
-  // }, [answerListId, examId]);
-
   if (!studentResult || !examData) {
     return <Spinner />;
   }
 
-  console.log(studentResult);
+  console.log("student result :", studentResult);
   console.log(examData);
 
   return (
@@ -70,11 +63,15 @@ function StudentResult() {
             <h3 className="text-lg font-bold">نتایج دانش آموز</h3>
             <h4 className="text-base font-semibold">
               <span>نام دانش آموز :</span>
-              <span>{/* {student.name} */}</span>
+              <span>
+                {studentResult.student.first_name +
+                  " " +
+                  studentResult.student.last_name}
+              </span>
             </h4>
             <h4 className="text-base font-semibold">
               <span>کد ملی :</span>
-              <span>1258238470</span>
+              <span>{studentResult.student.more.national_code}</span>
             </h4>
           </div>
         </div>
@@ -98,7 +95,7 @@ function StudentResult() {
               <span>{studentResult.wrongs}</span>
             </Item>
             <Item label="درصد">
-              <span>{studentResult.percent}</span>
+              <span>{parseFloat(studentResult.percent).toFixed(2)}</span>
             </Item>
           </Descriptions>
         </div>

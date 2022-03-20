@@ -1,26 +1,34 @@
 import { Table } from "antd";
 import { useCallback, useMemo } from "react";
 
-function AnswerList({ answers }) {
+function AnswerList({ answers, children }) {
   const formData = useMemo(() => {
     return [
       {
         title: "شماره",
         dataIndex: "number",
         key: "number",
-        render: (text) => <p>{text}</p>,
+        render: (text) => <p>{text + 1}</p>,
       },
       {
         title: "وضعیت",
         dataIndex: "status",
         key: "status",
-        render: (text) => <p>{text}</p>,
+        render: (text, record) => {
+          if (record.selected === record.correct) {
+            return <p>صحیح</p>;
+          } else if (record.selected !== record) {
+            return <p>غلط</p>;
+          } else {
+            return <p>نزده</p>;
+          }
+        },
       },
       {
         title: "گزینه انتخابی",
         dataIndex: "selected",
         key: "selected",
-        render: (text) => <p>{text ? text : "نزده"}</p>,
+        render: (text) => <p>{text ? text : "____"}</p>,
       },
       {
         title: "گزینه صحیح",
@@ -31,12 +39,27 @@ function AnswerList({ answers }) {
     ];
   }, []);
 
+  const dynamicBg = useCallback((record) => {
+    const { selected, correct } = record;
+    if (selected === correct) {
+      return "bg-green-200";
+    }
+    if (selected !== correct && selected) {
+      return "bg-red-200";
+    }
+  }, []);
+
   return (
     <div className="mt-8 mb-5">
       <div className="mb-5">
         <h2 className="text-xl font-bold">پاسخنامه دانش آموز</h2>
       </div>
-      <Table pagination={false} columns={formData} dataSource={answers} />
+      <Table
+        pagination={false}
+        columns={formData}
+        dataSource={answers}
+        rowClassName={dynamicBg}
+      />
     </div>
   );
 }

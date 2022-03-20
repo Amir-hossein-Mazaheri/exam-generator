@@ -25,9 +25,6 @@ function RawExamOptions({ holdId, rawExam }) {
       SET_PROPERTIES({ property: "medium", value: rawExam.mediums_count })
     );
     dispatch(SET_PROPERTIES({ property: "easy", value: rawExam.easies_count }));
-    dispatch(
-      SET_PROPERTIES({ property: "randomize", value: rawExam.randomize })
-    );
     dispatch(SET_REDIRECTED_FROM_RAW_EXAM({ status: true }));
     navigate("/exam-generator/");
   }, [
@@ -38,7 +35,6 @@ function RawExamOptions({ holdId, rawExam }) {
     rawExam.mediums_count,
     rawExam.name,
     rawExam.questions,
-    rawExam.randomize,
   ]);
 
   return (
@@ -57,7 +53,11 @@ function RawExamOptions({ holdId, rawExam }) {
       </div>
 
       <div>
-        <Dropdown overlay={<PrintMenu />} placement="bottomCenter" arrow>
+        <Dropdown
+          overlay={<PrintMenu rawExamId={holdId} />}
+          placement="bottomCenter"
+          arrow
+        >
           <Button className={`${buttonStyle} flex items-center gap-[6px]`}>
             <span>
               <svg
