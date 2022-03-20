@@ -7,16 +7,6 @@ import App from "./App";
 import Auth from "../Helpers/Auth";
 import { useEffect } from "react";
 
-localStorage.setItem(
-  "access",
-  "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ3NzU2NjE2LCJqdGkiOiI1ODNkMmQxMzQwODU0ODg5YTdkOTNjZGU5OGQ1ODRjNyIsInVzZXJfaWQiOjE1fQ.duLTerOLnsq-3xOgj5RlJaVFZTaSsI_CZQa9RCt3rxc"
-);
-
-localStorage.setItem(
-  "refresh",
-  "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY0Nzg0MjcxNiwianRpIjoiZmUzNzg5YWJjMzYzNDA3Mjg0NzJmYmMxOTQ2YmY2OGUiLCJ1c2VyX2lkIjoxNX0.8C-dE9sC_Z1LuZRfwvmutritcFxmIk14L1iTWnSGG5I"
-);
-
 axios.defaults.baseURL = "http://lapluse.ir/examapi";
 axios.defaults.headers.common["Authorization"] =
   "Bearer " + Auth.getToken("access");
