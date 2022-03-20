@@ -29,7 +29,7 @@ const loadingSpinner = (
 function App() {
   return (
     <Suspense fallback={loadingSpinner}>
-      <BrowserRouter>
+      <BrowserRouter basename="exam-generator">
         <Routes>
           <Route element={<MainLayout asRoute={true} />}>
             <Route index element={<HomePage />} />
