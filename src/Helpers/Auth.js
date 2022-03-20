@@ -57,8 +57,7 @@ class Auth {
 
   isLoggedIn() {
     const access = this.getToken("access");
-    const refresh = this.getToken("refresh");
-    if (access && refresh) {
+    if (access) {
       return true;
     }
     return false;
