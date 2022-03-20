@@ -24,12 +24,7 @@ axios.defaults.headers.common["Authorization"] =
 axios.interceptors.response.use(
   (config) => config,
   async (err) => {
-    const isRefreshExpired = Auth.isTokenExpired(Auth.getToken("refresh"));
     const config = err.config;
-    if (isRefreshExpired) {
-      Auth.logout();
-      window.location.replace("http://lapluse.ir/exam-login/");
-    }
     console.log("getting refresh !");
     const refresh = await Auth.checkLogin();
     localStorage.setItem("refresh", refresh);
