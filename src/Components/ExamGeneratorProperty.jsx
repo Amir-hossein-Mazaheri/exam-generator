@@ -2,7 +2,7 @@ import { useCallback, useMemo, useState } from "react";
 
 import { Checkbox, Input, message } from "antd";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import useSWR from "swr";
 import { Button } from "antd";
 import Categories from "../Common/Categories";
@@ -21,9 +21,20 @@ function ExamGeneratorProperty() {
   const [hard, setHard] = useState(0);
   const [medium, setMedium] = useState(0);
   const [easy, setEasy] = useState(0);
-  // const [randomize, setRandomize] = useState(false);
   const [cat, setCat] = useState([]);
   const [isQuestionLoading, setIsQuestionLoading] = useState(false);
+
+  const {
+    isRedirectedFromRawExam,
+    generatorProperties: {
+      name: nm,
+      hard: hd,
+      medium: md,
+      easy: es,
+      randomize,
+    },
+  } = useSelector((store) => store.entities.ExamGenerator);
+
   const { data: categoriesData } = useSWR("/majors/", fetcher);
 
   const dispatch = useDispatch();
@@ -84,6 +95,7 @@ function ExamGeneratorProperty() {
             className="rounded-full px-3"
             type="text"
             id="exam-name"
+            defaultValue={nm}
           />
         </div>
 
@@ -95,6 +107,8 @@ function ExamGeneratorProperty() {
               className="rounded-full px-3"
               type="number"
               id="exam-name"
+              value={hd}
+              disabled={isRedirectedFromRawExam}
             />
           </div>
           <div className="grow">
@@ -104,6 +118,8 @@ function ExamGeneratorProperty() {
               className="rounded-full px-3"
               type="number"
               id="exam-name"
+              value={md}
+              disabled={isRedirectedFromRawExam}
             />
           </div>
           <div className="grow">
@@ -113,6 +129,8 @@ function ExamGeneratorProperty() {
               className="rounded-full px-3"
               type="number"
               id="exam-name"
+              value={es}
+              disabled={isRedirectedFromRawExam}
             />
           </div>
         </div>
@@ -126,12 +144,17 @@ function ExamGeneratorProperty() {
                 })
               )
             }
+            checked={randomize}
           >
             <span>امکان تعویض نمایش سوالات</span>
           </Checkbox>
         </div>
 
-        <div className="px-5 py-3 bg-white shadow rounded-md mt-5">
+        <div
+          className={`px-5 py-3 bg-white shadow rounded-md mt-5 ${
+            isRedirectedFromRawExam ? "hidden" : ""
+          }`}
+        >
           <Categories
             data={categories}
             onCheck={(values) => setCategories(values)}
@@ -141,6 +164,7 @@ function ExamGeneratorProperty() {
         <Button
           htmlType="submit"
           loading={isQuestionLoading}
+          disabled={isRedirectedFromRawExam}
           className="bg-green-500 text-white mt-6 flex mr-auto rounded-full border-none hover:bg-green-600 hover:text-white"
         >
           <span>تولید سوالات</span>
