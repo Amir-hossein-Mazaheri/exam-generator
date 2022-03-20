@@ -9,9 +9,11 @@ import GeneratedExam from "../Components/GeneratedExam";
 import AddQuestionModal from "../Components/AddQuestionModal";
 import { SHOW_MODAL } from "../Store/ui";
 import { RESET_GENERATOR } from "../Store/entities/ExamGenerator";
+import { useNavigate } from "react-router";
 
 function ExamGenerator() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {
     generatedQuestions,
     generatorProperties: { name, randomize },
@@ -28,10 +30,10 @@ function ExamGenerator() {
       .then((res) => {
         message.success(`آزمون ${name} با موفقیت ساخته شد.`);
         console.log(res);
-        dispatch(RESET_GENERATOR());
+        navigate("/");
       })
       .catch((err) => console.log(err.response));
-  }, [dispatch, generatedQuestions, name, randomize]);
+  }, [generatedQuestions, name, navigate, randomize]);
 
   useEffect(() => {
     return () => {
