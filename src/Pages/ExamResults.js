@@ -45,7 +45,8 @@ function ExamResults() {
       <ShowResults
         studentInfo={students.map((student, index) => ({
           key: student.answer_sheet,
-          fullname: /*student.student.first_name + " " + student.student.last_name*/ `دانش آموز ${index}`,
+          fullname:
+            student.student.first_name + " " + student.student.last_name,
           id: student.national_code,
           answerSheet: student.answer_sheet,
           totalPercent: student.percent,

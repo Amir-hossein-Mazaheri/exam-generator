@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
@@ -32,6 +32,12 @@ function ExamGenerator() {
       })
       .catch((err) => console.log(err.response));
   }, [dispatch, generatedQuestions, name, randomize]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(RESET_GENERATOR());
+    };
+  }, [dispatch]);
 
   return (
     <div>

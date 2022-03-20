@@ -82,19 +82,23 @@ function StudentResult() {
         <div className="mt-5 rounded-md bg-gray-100 px-5 pt-3">
           <Descriptions title={null}>
             <Item label="تعداد کل">
-              <span></span>
+              <span>
+                {studentResult.corrects +
+                  studentResult.wrongs +
+                  studentResult.noanswers}
+              </span>
             </Item>
             <Item label="نزده">
-              <span></span>
+              <span>{studentResult.noanswers}</span>
             </Item>
             <Item label="صحیح">
-              <span></span>
+              <span>{studentResult.corrects}</span>
             </Item>
             <Item label="غلط">
-              <span></span>
+              <span>{studentResult.wrongs}</span>
             </Item>
             <Item label="درصد">
-              <span></span>
+              <span>{studentResult.percent}</span>
             </Item>
           </Descriptions>
         </div>

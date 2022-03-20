@@ -14,6 +14,7 @@ const ExamGenerator = createSlice({
   initialState: {
     generatedQuestions: [],
     generatorProperties: initialGeneratorProperties,
+    isRedirectedFromRawExam: false,
   },
   reducers: {
     SET_PROPERTIES: (store, action) => {
@@ -31,6 +32,10 @@ const ExamGenerator = createSlice({
     RESET_GENERATOR: (store) => {
       store.generatedQuestions = [];
       store.generatorProperties = initialGeneratorProperties;
+      store.isRedirectedFromRawExam = false;
+    },
+    SET_REDIRECTED_FROM_RAW_EXAM: (store, action) => {
+      store.isRedirectedFromRawExam = action.payload.status;
     },
   },
 });
@@ -43,4 +48,5 @@ export const {
   SET_QUESTIONS,
   RESET_GENERATOR,
   APPEND_QUESTION,
+  SET_REDIRECTED_FROM_RAW_EXAM,
 } = ExamGenerator.actions;

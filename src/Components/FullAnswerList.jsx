@@ -14,8 +14,9 @@ function FullAnswerList({ answersList }) {
           ></div>
           <div>
             <ul className="space-y-4">
-              {answer.question.choices.map((choice) => (
+              {answer.question.choices.map((choice, index) => (
                 <li
+                  key={index}
                   className={`py-2 px-4 rounded-md ${
                     choice.is_correct && "bg-green-500 text-white"
                   }`}

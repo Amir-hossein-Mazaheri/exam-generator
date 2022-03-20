@@ -1,10 +1,45 @@
 import { Dropdown } from "antd";
+import { useCallback } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router";
 import Button from "../Common/Button";
 import PrintMenu from "./PrintMenu";
+import {
+  SET_PROPERTIES,
+  SET_QUESTIONS,
+  SET_REDIRECTED_FROM_RAW_EXAM,
+} from "../Store/entities/ExamGenerator";
 
-function RawExamOptions({ holdId }) {
-  const buttonStyle = "bg-sky-500 text-white";
+const buttonStyle = "bg-sky-500 text-white";
+
+function RawExamOptions({ holdId, rawExam }) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const setExamGeneratorData = useCallback(() => {
+    dispatch(SET_QUESTIONS({ questions: rawExam.questions }));
+    dispatch(SET_PROPERTIES({ property: "name", value: rawExam.name }));
+    dispatch(SET_PROPERTIES({ property: "hard", value: rawExam.hards_count }));
+    dispatch(
+      SET_PROPERTIES({ property: "medium", value: rawExam.mediums_count })
+    );
+    dispatch(SET_PROPERTIES({ property: "easy", value: rawExam.easies_count }));
+    dispatch(
+      SET_PROPERTIES({ property: "randomize", value: rawExam.randomize })
+    );
+    dispatch(SET_REDIRECTED_FROM_RAW_EXAM({ status: true }));
+    navigate("/exam-generator/");
+  }, [
+    dispatch,
+    navigate,
+    rawExam.easies_count,
+    rawExam.hards_count,
+    rawExam.mediums_count,
+    rawExam.name,
+    rawExam.questions,
+    rawExam.randomize,
+  ]);
 
   return (
     <div className="flex justify-between">
@@ -15,9 +50,9 @@ function RawExamOptions({ holdId }) {
           </Link>
         </div>
         <div>
-          <Link to="/">
-            <Button className={buttonStyle}>بازتولید و نشر</Button>
-          </Link>
+          <Button onClick={setExamGeneratorData} className={buttonStyle}>
+            بازتولید و نشر
+          </Button>
         </div>
       </div>
 

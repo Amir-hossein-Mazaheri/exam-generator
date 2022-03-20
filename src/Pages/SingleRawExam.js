@@ -26,12 +26,12 @@ function SingleRawExam() {
     return <Spinner />;
   }
 
-  console.log(time);
+  console.log(singleExam);
 
   return (
     <div>
       <div>
-        <RawExamOptions holdId={id} />
+        <RawExamOptions rawExam={singleExam} holdId={id} />
       </div>
 
       <div className="relative">
