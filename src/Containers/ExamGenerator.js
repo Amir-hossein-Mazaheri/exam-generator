@@ -45,13 +45,10 @@ function StudentPanel() {
       window.location.replace("http://lapluse.ir/exam-login/");
       return;
     }
-    axios.get("/panel/").then((res) => {
-      const role = res.data.role;
-      console.log(role);
-      if (role !== "exam_creator") {
-        window.location.replace("http://lapluse.ir/exam-login/");
-      }
-    });
+    const isRefreshExpired = Auth.isTokenExpired(Auth.getToken("refresh"));
+    if (isRefreshExpired) {
+      window.location.replace("http://lapluse.ir/exam-login/");
+    }
   });
 
   return (
