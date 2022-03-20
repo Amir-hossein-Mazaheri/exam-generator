@@ -17,7 +17,6 @@ import {
 } from "../Store/entities/ExamGenerator";
 
 function ExamGeneratorProperty() {
-  const [name, setName] = useState("");
   const [hard, setHard] = useState(0);
   const [medium, setMedium] = useState(0);
   const [easy, setEasy] = useState(0);
@@ -26,13 +25,7 @@ function ExamGeneratorProperty() {
 
   const {
     isRedirectedFromRawExam,
-    generatorProperties: {
-      name: nm,
-      hard: hd,
-      medium: md,
-      easy: es,
-      randomize,
-    },
+    generatorProperties: { name, hard: hd, medium: md, easy: es, randomize },
   } = useSelector((store) => store.entities.ExamGenerator);
 
   const { data: categoriesData } = useSWR("/majors/", fetcher);
@@ -46,7 +39,6 @@ function ExamGeneratorProperty() {
   const handleExamGeneration = useCallback(
     (event) => {
       event.preventDefault();
-      console.log(name, hard, medium, easy);
       setIsQuestionLoading(true);
       axios
         .post("/exam_generator/", {
@@ -85,17 +77,23 @@ function ExamGeneratorProperty() {
     return <Spinner />;
   }
 
+  console.log(name);
+
   return (
     <div className="px-7 py-4 rounded-lg shadow-lg shadow-gray-200">
       <form onSubmit={handleExamGeneration}>
         <div>
           <label htmlFor="exam-name">نام آزمون</label>
           <Input
-            onChange={(event) => setName(event.target.value)}
+            onChange={(event) =>
+              dispatch(
+                SET_PROPERTIES({ property: "name", value: event.target.value })
+              )
+            }
             className="rounded-full px-3"
             type="text"
             id="exam-name"
-            defaultValue={nm}
+            defaultValue={name}
           />
         </div>
 
@@ -107,7 +105,7 @@ function ExamGeneratorProperty() {
               className="rounded-full px-3"
               type="number"
               id="exam-name"
-              value={hd}
+              defaultValue={hd}
               disabled={isRedirectedFromRawExam}
             />
           </div>
@@ -118,7 +116,7 @@ function ExamGeneratorProperty() {
               className="rounded-full px-3"
               type="number"
               id="exam-name"
-              value={md}
+              defaultValue={md}
               disabled={isRedirectedFromRawExam}
             />
           </div>
@@ -129,7 +127,7 @@ function ExamGeneratorProperty() {
               className="rounded-full px-3"
               type="number"
               id="exam-name"
-              value={es}
+              defaultValue={es}
               disabled={isRedirectedFromRawExam}
             />
           </div>
