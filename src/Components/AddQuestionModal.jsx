@@ -72,7 +72,7 @@ function AddQuestionModal() {
     <Modal
       title="اضافه کردن سوال به صورت دستی"
       visible={modalVisibility}
-      style={{ top: "20px" }}
+      style={{ top: "30px" }}
       //   onOk={handleOk}
       //   confirmLoading={isModalLoading}
       onCancel={() => dispatch(HIDE_MODAL())}
