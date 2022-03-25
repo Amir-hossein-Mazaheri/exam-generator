@@ -91,6 +91,8 @@ function ExamSetting({ examId }) {
     return <Spinner />;
   }
 
+  console.log(studentList);
+
   return (
     <div className="px-7 py-4 mt-10 mb-5 relative rounded-lg shadow-lg shadow-gray-200">
       <div className="mb-5">
