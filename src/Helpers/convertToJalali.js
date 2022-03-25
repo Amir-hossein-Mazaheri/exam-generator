@@ -7,7 +7,7 @@ dayjs.extend(jalali);
 dayjs.extend(utc);
 
 export function showJalaliTime(time, format = "YYYY/MM/DD HH:mm") {
-  return dayjs(time).calendar("jalali").locale("fa").format(format);
+  return dayjs(time).calendar("jalali").format(format);
 }
 
 export function convertToUTC(time) {
