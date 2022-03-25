@@ -90,7 +90,7 @@ function AddQuestionModal() {
             buttonStyle="solid"
           >
             <Radio.Button value={3}>سخت</Radio.Button>
-            <Radio.Button value={2}>متسوط</Radio.Button>
+            <Radio.Button value={2}>متوسط</Radio.Button>
             <Radio.Button value={1}>آسان</Radio.Button>
           </Radio.Group>
           <Categories
