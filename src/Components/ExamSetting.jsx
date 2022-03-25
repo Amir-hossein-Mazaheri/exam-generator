@@ -103,7 +103,7 @@ function ExamSetting({ examId }) {
           studentList={studentList.map((student) => ({
             key: student.id,
             fullname: student.first_name + " " + student.last_name,
-            notionalCode: student.more.national_code,
+            nationalCode: student.more.national_code,
             id: student.id,
           }))}
         />
