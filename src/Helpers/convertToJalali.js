@@ -15,10 +15,7 @@ export function convertToUTC(time) {
 }
 
 export function convertToJalaliDayJS(time) {
-  return dayjs(
-    dayjs(time).calendar("jalali").locale("fa").format("YYYY-MM-DD"),
-    {
-      jalali: true,
-    }
-  ).calendar("jalali");
+  return dayjs(dayjs(time).calendar("jalali").format("YYYY-MM-DD"), {
+    jalali: true,
+  }).calendar("jalali");
 }
