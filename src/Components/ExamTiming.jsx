@@ -1,7 +1,7 @@
 import { Checkbox, Input, TimePicker } from "antd";
 import {
   DatePicker as DatePickerJalali,
-  JalaliLocaleListener,
+  useJalaliLocaleListener,
 } from "antd-jalali";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
@@ -14,10 +14,31 @@ import { CHANGE_EXAM_SETTING } from "../Store/entities/ExamSettings";
 dayjs.extend(utc);
 
 function ExamTiming() {
+  useJalaliLocaleListener();
   const dispatch = useDispatch();
 
   const { visibleAnswers, randomize, start, end, duration, isRaw } =
     useSelector((store) => store.entities.ExamSettings);
+
+  const defaultDatePickerSetter = useCallback(
+    (type) => {
+      if (!isRaw) {
+        return convertToJalaliDayJS(type);
+      }
+      return;
+    },
+    [isRaw]
+  );
+
+  const defaultTimePickerSetter = useCallback(
+    (type) => {
+      if (!isRaw) {
+        return dayjs(type);
+      }
+      return;
+    },
+    [isRaw]
+  );
 
   const setStartDate = useCallback(
     (time) => {
@@ -90,14 +111,13 @@ function ExamTiming() {
       <div className="flex gap-4">
         <div className="flex items-center gap-3">
           <p>تاریخ شروع آزمون</p>
-          <JalaliLocaleListener />
           <div className="flex flex-col gap-5">
             <DatePickerJalali
-              defaultValue={!isRaw ? convertToJalaliDayJS(start) : undefined}
+              defaultValue={defaultDatePickerSetter(start)}
               onChange={setStartDate}
             />
             <TimePicker
-              defaultValue={!isRaw ? dayjs(start) : undefined}
+              value={defaultTimePickerSetter(start)}
               onChange={setStartTime}
               format={"HH:mm"}
             />
@@ -107,11 +127,11 @@ function ExamTiming() {
           <p>تاریخ پایان آزمون</p>
           <div className="flex flex-col gap-5">
             <DatePickerJalali
-              defaultValue={!isRaw ? convertToJalaliDayJS(end) : undefined}
+              defaultValue={defaultDatePickerSetter(end)}
               onChange={setEndDate}
             />
             <TimePicker
-              defaultValue={!isRaw ? dayjs(end) : undefined}
+              value={defaultTimePickerSetter(end)}
               onChange={setEndTime}
               format={"HH:mm"}
             />

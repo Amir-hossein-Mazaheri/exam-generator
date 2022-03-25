@@ -1,13 +1,15 @@
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import jalali from "jalaliday";
-import "dayjs/locale/fa";
+import fa_IR from "dayjs/esm/locale/fa";
 
 dayjs.extend(jalali);
 dayjs.extend(utc);
 
+dayjs.calendar("jalali");
+
 export function showJalaliTime(time, format = "YYYY/MM/DD HH:mm") {
-  return dayjs(time).calendar("jalali").format(format);
+  return dayjs(time).locale(fa_IR).format(format);
 }
 
 export function convertToUTC(time) {
@@ -15,7 +17,7 @@ export function convertToUTC(time) {
 }
 
 export function convertToJalaliDayJS(time) {
-  return dayjs(dayjs(time).calendar("jalali").format("YYYY-MM-DD"), {
+  return dayjs(dayjs(time).locale(fa_IR).format("YYYY-MM-DD"), {
     jalali: true,
-  }).calendar("jalali");
+  });
 }
