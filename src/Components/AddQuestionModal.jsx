@@ -58,12 +58,13 @@ function AddQuestionModal() {
         })
         .then((res) => {
           setFetchedQuestions(res.data.results);
-          setIsFetchingQuestion(false);
           if (res.data.results.length === 0) {
             pushNotification("warning", "سوالی با این مشخصات یافت نشد.");
           }
           console.log(res.data);
-        });
+        })
+        .catch((err) => console.log(err.response))
+        .finally(() => setIsFetchingQuestion(false));
     },
     [cat, hardness]
   );
