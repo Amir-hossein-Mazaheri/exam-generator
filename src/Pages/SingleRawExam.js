@@ -38,18 +38,17 @@ function SingleRawExam() {
         <ExamCard
           title={singleExam.name}
           count={{
-            allCount: 20,
+            allCount: singleExam.questions_count,
             eachCount: [
-              { title: "آسان", value: 5 },
-              { title: "متوسط", value: 5 },
-              { title: "سخت", value: 10 },
+              { title: "آسان", value: singleExam.easies_count },
+              { title: "متوسط", value: singleExam.mediums_count },
+              { title: "سخت", value: singleExam.hards_count },
             ],
           }}
           categories={[
-            { title: "رشته ها", values: ["تجربی", "ریاضی"] },
-            { title: "پایه ها", values: ["دوازدهم", "یازدهم"] },
-            { title: "درس ها", values: ["فیزیک 2"] },
-            { title: "مباحث", values: ["گرما", "الکتریسیه"] },
+            { title: "پایه ها", values: singleExam.grades },
+            { title: "درس ها", values: singleExam.courses },
+            { title: "مباحث", values: singleExam.subjects },
           ]}
         />
         <div className="absolute top-0 bottom-0 left-5 py-12 px-7">
