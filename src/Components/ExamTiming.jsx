@@ -58,7 +58,11 @@ function ExamTiming() {
         dispatch(
           CHANGE_EXAM_SETTING({
             property: "start",
-            value: dayjs(start).hour(hour).minute(minute).toISOString(),
+            value: dayjs(start)
+              .hour(hour)
+              .minute(minute)
+              .second(0)
+              .toISOString(),
           })
         );
       }
@@ -73,7 +77,7 @@ function ExamTiming() {
         dispatch(
           CHANGE_EXAM_SETTING({
             property: "end",
-            value: dayjs(end).hour(hour).minute(minute).toISOString(),
+            value: dayjs(end).hour(hour).minute(minute).second(0).toISOString(),
           })
         );
       }
