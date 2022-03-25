@@ -41,7 +41,7 @@ function StudentPanel() {
     axios.get("/panel/").then((res) => {
       const role = res.data.role;
       console.log(role);
-      if (role !== "student") {
+      if (role !== "exam-creator") {
         window.location.replace("http://lapluse.ir/exam-login/");
       }
     });
