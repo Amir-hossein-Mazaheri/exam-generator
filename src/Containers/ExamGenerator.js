@@ -38,6 +38,13 @@ function StudentPanel() {
     if (isRefreshExpired) {
       window.location.replace("http://lapluse.ir/exam-login/");
     }
+    axios.get("/panel/").then((res) => {
+      const role = res.data.role;
+      console.log(role);
+      if (role !== "student") {
+        window.location.replace("http://lapluse.ir/exam-login/");
+      }
+    });
   });
 
   return (
