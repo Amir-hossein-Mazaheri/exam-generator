@@ -24,7 +24,9 @@ const examSettings = createSlice({
       store.listOfStudents.push(action.payload.value);
     },
     RESET_EXAM_SETTINGS: (store) => {
-      store = initialSettings;
+      for (const key in initialSettings) {
+        store[key] = initialSettings[key];
+      }
     },
     SET_IS_RAW: (store, action) => {
       store.isRaw = action.payload.value;

@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { SET_STUDENT_LIST } from "../Store/entities/ExamSettings";
 
-function SelectStudent({ studentList }) {
+function SelectStudent({ studentList, selectedStudent }) {
   const dispatch = useDispatch();
   const [query, setQuery] = useState("");
 
@@ -52,6 +52,7 @@ function SelectStudent({ studentList }) {
       <Table
         rowSelection={{
           type: "checkbox",
+          selectedRowKeys: selectedStudent ? selectedStudent : undefined,
           ...addStudentToState,
         }}
         pagination={false}

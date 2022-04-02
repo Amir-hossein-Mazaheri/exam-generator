@@ -23,6 +23,7 @@ function ExamTiming() {
   const defaultDatePickerSetter = useCallback(
     (type) => {
       if (!isRaw) {
+        console.log(convertToJalaliDayJS(type));
         return convertToJalaliDayJS(type);
       }
       return;
@@ -33,6 +34,7 @@ function ExamTiming() {
   const defaultTimePickerSetter = useCallback(
     (type) => {
       if (!isRaw) {
+        console.log(dayjs(type));
         return dayjs(type);
       }
       return;

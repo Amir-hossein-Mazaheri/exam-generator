@@ -41,16 +41,15 @@ function RawExams() {
               count={{
                 allCount: question.questions_count,
                 eachCount: [
-                  { title: "آسان", value: 5 },
-                  { title: "متوسط", value: 5 },
-                  { title: "سخت", value: 10 },
+                  { title: "سخت", value: question.hards_count },
+                  { title: "متوسط", value: question.mediums_count },
+                  { title: "آسان", value: question.easies_count },
                 ],
               }}
               categories={[
-                { title: "رشته ها", values: ["تجربی", "ریاضی"] },
-                { title: "پایه ها", values: ["دوازدهم", "یازدهم"] },
-                { title: "درس ها", values: ["فیزیک 2"] },
-                { title: "مباحث", values: ["گرما", "الکتریسیه"] },
+                { title: "پایه ها", values: question.grades },
+                { title: "درس ها", values: question.courses },
+                { title: "مباحث", values: question.subjects },
               ]}
               settingLink={`/single-raw-exam/${question.id}`}
             />

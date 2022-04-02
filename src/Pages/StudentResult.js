@@ -102,15 +102,12 @@ function StudentResult() {
       </div>
 
       <AnswerList
-        answers={studentResult.details.map((detail, index) => ({
+        answers={studentResult.answer_sheet.map((sheet, index) => ({
           key: index,
           number: index,
-          status: "درست",
-          selected: detail.choice ? (detail.choice.id % 4) + 1 : "نزده",
-          correct:
-            (detail.question.choices.find((choice) => choice.is_correct).id %
-              4) +
-            1,
+          status: "",
+          selected: sheet.student_answer + 1,
+          correct: sheet.correct + 1,
         }))}
       />
 

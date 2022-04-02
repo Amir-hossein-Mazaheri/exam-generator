@@ -1,5 +1,8 @@
+import { useCallback, useEffect } from "react";
+
 import axios from "axios";
-import { useCallback } from "react";
+import SelectStudent from "./SelectStudent";
+import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import useSWR from "swr";
@@ -8,9 +11,17 @@ import Spinner from "../Common/Spinner";
 import fetcher from "../Helpers/fetcher";
 import pushNotification from "../Helpers/pushNotification";
 import ExamTiming from "./ExamTiming";
-import SelectStudent from "./SelectStudent";
+import { RESET_EXAM_SETTINGS } from "../Store/entities/ExamSettings";
 
-function ExamSetting({ examId }) {
+function ExamSetting({ examId, allowedStudents }) {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    return () => {
+      dispatch(RESET_EXAM_SETTINGS());
+    };
+  }, [dispatch]);
+
   const {
     start,
     end,
@@ -55,15 +66,17 @@ function ExamSetting({ examId }) {
   ]);
 
   const editExam = useCallback(() => {
-    const addPostData = {
+    const editPostData = {
+      id: Number(examId),
       start,
       end,
       time: duration,
       is_viewing_answer_allowed: visibleAnswers,
       allowed_students: listOfStudents,
     };
+    console.log(editPostData);
     axios
-      .patch(`/exams/${examId}`, addPostData)
+      .patch(`/exams/${examId}/`, editPostData)
       .then((res) => {
         console.log(res);
         pushNotification("success", "آزمون با موفقیت ویرایش شد.");
@@ -91,7 +104,7 @@ function ExamSetting({ examId }) {
     return <Spinner />;
   }
 
-  console.log(studentList);
+  console.log("students list :", studentList);
 
   return (
     <div className="px-7 py-4 mt-10 mb-5 relative rounded-lg shadow-lg shadow-gray-200">
@@ -108,23 +121,15 @@ function ExamSetting({ examId }) {
             nationalCode: student.more.national_code,
             id: student.id,
           }))}
+          selectedStudent={allowedStudents}
         />
 
-        {isRaw ? (
-          <Button
-            type="submit"
-            className="bg-green-500 text-white absolute top-5 left-3"
-          >
-            برگزاری آزمون
-          </Button>
-        ) : (
-          <Button
-            type="submit"
-            className="bg-green-500 text-white absolute top-5 left-3"
-          >
-            ذخیره تغییرات
-          </Button>
-        )}
+        <Button
+          type="submit"
+          className="bg-green-500 text-white absolute top-5 left-3"
+        >
+          {isRaw ? <span>برگزاری آزمون</span> : <span>ذخیره تغییرات</span>}
+        </Button>
       </form>
     </div>
   );

@@ -64,7 +64,7 @@ function ExamSettings({ isRaw = false }) {
     return <Spinner />;
   }
 
-  console.log(examData);
+  console.log("exam setting data :", examData);
 
   return (
     <div>
@@ -105,7 +105,7 @@ function ExamSettings({ isRaw = false }) {
         />
       )}
 
-      <ExamSetting examId={id} />
+      <ExamSetting allowedStudents={examData.allowed_students} examId={id} />
     </div>
   );
 }

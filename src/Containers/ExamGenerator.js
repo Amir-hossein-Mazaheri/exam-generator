@@ -1,11 +1,22 @@
-import { ConfigProvider } from "antd";
+import { useEffect } from "react";
+
 import { Provider } from "react-redux";
-import axios from "axios";
+import { ConfigProvider } from "antd";
 import fa_IR from "antd/lib/locale-provider/fa_IR";
+import axios from "axios";
 import store from "../Store/configStore";
 import App from "./App";
 import Auth from "../Helpers/Auth";
-import { useEffect } from "react";
+
+localStorage.setItem(
+  "access",
+  "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ4OTA2OTUzLCJqdGkiOiIyMjQzYzU2Yzc0YTk0MTZjYjFmODI2YjllZDg5MDRjNiIsInVzZXJfaWQiOjJ9.HdITO61BH4VyEc5MhKbPZPqS5Ez_t0RN3Y6wHbqE9KU"
+);
+
+localStorage.setItem(
+  "refresh",
+  "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY0ODk5MzA1MywianRpIjoiNjMzMTEzMjYzODMyNGUwNWJkNzY5OWYwYmE0M2E4MTAiLCJ1c2VyX2lkIjoyfQ.DOuWYJVJt2oPTRVAI_OVmz4bEOLYuMNrO27Qjvpt8HQ"
+);
 
 axios.defaults.baseURL = "http://lapluse.ir/examapi";
 axios.defaults.headers.common["Authorization"] =
